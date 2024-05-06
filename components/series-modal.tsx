@@ -21,6 +21,12 @@ export default function SeriesModal({
     <div>
       <motion.div
         layoutId={seriesId}
+        initial={{ opacity: 0.2 }}
+        animate={{ opacity: 1 }}
+        transition={{
+          opacity: { ease: "linear" },
+          layout: { duration: 0.3 },
+        }}
         className="absolute left-0 right-0 z-50 w-full max-w-md mx-auto overflow-auto shadow-xl rounded-t-2xl sm:max-w-lg md:max-w-xl lg:max-w-4xl xl:max-w-6xl bg-product-background top-5 h-[calc(100%-20px)] scrollbar-hide"
       >
         <div className="relative">
@@ -62,14 +68,14 @@ export default function SeriesModal({
                 </div>
                 <div className="flex flex-col justify-center col-span-8">
                   <div className="flex justify-between">
-                    <h4 className="text-xs font-bold text-product-color md:text-base">
+                    <h4 className="text-xs font-bold text-product-color lg:text-base">
                       아비도스 고등학교 폐교 대책위원회
                     </h4>
-                    <h5 className="text-xs font-bold text-product-color md:text-base">
+                    <h5 className="text-xs font-bold text-product-color lg:text-base">
                       24m
                     </h5>
                   </div>
-                  <h5 className="mt-2 text-xs md:mt-4 line-clamp-2 text-product-color md:text-sm">
+                  <h5 className="text-xs sm:mt-2 md:mt-4 line-clamp-2 text-product-color lg:text-sm">
                     재정 문제로 폐쇄 직전에 있는 아비도스 고등학교. 그리고
                     학교를 살리기 위해 고군분투하는 대책위원회가 있다.
                     대책위원회의 위원장인 호시노를 비롯한 아이들은 오늘도 학교를
