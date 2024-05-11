@@ -18,7 +18,7 @@ export default function WatchPage() {
     router.back();
   };
   return (
-    <div className="relative w-full h-screen bg-product-background">
+    <div className="relative w-full h-full bg-product-background">
       <div
         className="absolute z-50 rounded-full cursor-pointer top-10 left-10 size-11 backdrop-blur-md"
         onClick={goBack}

@@ -11,7 +11,7 @@ export default async function SeriesPage({
 }) {
   const series = await getSeries(+id);
   return (
-    <main className="w-full h-screen pb-10 overflow-hidden bg-product-background">
+    <main className="w-full h-full pb-10 overflow-hidden bg-product-background">
       <ProductList />
       <SeriesModal
         coverImage={series?.coverImage!}

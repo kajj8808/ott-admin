@@ -13,7 +13,7 @@ import ProductList from "@/components/product-list";
 
 export default async function Home() {
   return (
-    <main className="w-full min-h-screen pb-10 bg-product-background">
+    <main className="w-full min-h-full pb-10 bg-product-background">
       <ProductList />
     </main>
   );
