@@ -11,6 +11,7 @@ const config: Config = {
       colors: {
         "product-background": "#F9F8F4",
         "product-color": "#1C2A44",
+        current: "currentColor",
       },
 
       backgroundImage: {

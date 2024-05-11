@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 interface productItemProps {
   id: number;
   coverImage: string;
-  logo: string;
+  logo?: string;
 }
 
 export default function ProductItem({
@@ -30,13 +30,15 @@ export default function ProductItem({
         />
         <div className="absolute top-0 z-10 w-full h-full from-transparent via-transparent to-product-background bg-gradient-to-b from-0% via-50% to-100%"></div>
         <div className="absolute bottom-0 z-20 w-full p-3.5">
-          <Image
-            src={convertSharedUrlToHostedImageUrl(logo)}
-            alt="logo"
-            width={120}
-            height={120}
-            className=""
-          />
+          {logo ? (
+            <Image
+              src={convertSharedUrlToHostedImageUrl(logo)}
+              alt="logo"
+              width={120}
+              height={120}
+              className=""
+            />
+          ) : null}
         </div>
       </Link>
     </motion.div>

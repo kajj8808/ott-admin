@@ -1,39 +1,49 @@
-export function getSeriesList() {
-  const fakeData = [
-    {
-      seriesId: 1,
-      coverImage:
-        "https://image.tmdb.org/t/p/original/m4A7OiIK4VvBUiTfkBH6dFM2vH.jpg",
-      logo: "https://drive.google.com/file/d/1kvguRVME7ywf2hBM81VwOUUAT-Vy6KPk",
+import db from "./lib/server/db";
+/* 받아서 nowplying 이렇게 */
+export async function getSeriesList() {
+  const series = await db.series.findMany({
+    where: {
+      seasons: {
+        some: {
+          nyaaQuery: { not: null },
+        },
+      },
     },
-    {
-      seriesId: 2,
-      coverImage:
-        "https://image.tmdb.org/t/p/original/m4A7OiIK4VvBUiTfkBH6dFM2vH.jpg",
-      logo: "https://drive.google.com/file/d/1kvguRVME7ywf2hBM81VwOUUAT-Vy6KPk",
-    },
-    {
-      seriesId: 3,
-      coverImage:
-        "https://image.tmdb.org/t/p/original/m4A7OiIK4VvBUiTfkBH6dFM2vH.jpg",
-      logo: "https://drive.google.com/file/d/1kvguRVME7ywf2hBM81VwOUUAT-Vy6KPk",
-    },
-    {
-      seriesId: 4,
-      coverImage:
-        "https://image.tmdb.org/t/p/original/m4A7OiIK4VvBUiTfkBH6dFM2vH.jpg",
-      logo: "https://drive.google.com/file/d/1kvguRVME7ywf2hBM81VwOUUAT-Vy6KPk",
-    },
-  ];
-  return fakeData;
-}
-export function getSeries(id: string) {
-  const fakeData = {
-    seriesId: 1,
-    coverImage:
-      "https://image.tmdb.org/t/p/original/m4A7OiIK4VvBUiTfkBH6dFM2vH.jpg",
-    logo: "https://drive.google.com/file/d/1kvguRVME7ywf2hBM81VwOUUAT-Vy6KPk",
-  };
+  });
 
-  return fakeData;
+  return series;
+}
+export async function getSeries(id: number) {
+  const series = await db.series.findUnique({
+    where: { id: id },
+    include: {
+      seasons: {
+        where: {
+          nyaaQuery: { not: null },
+        },
+        select: { id: true, name: true },
+      },
+    },
+  });
+
+  return series;
+}
+export async function getEpisodes(seasonId: number) {
+  console.log(seasonId);
+  const season = await db.season.findUnique({
+    where: {
+      id: seasonId,
+    },
+    include: {
+      episodes: {
+        orderBy: {
+          number: "asc",
+        },
+      },
+    },
+  });
+  (BigInt.prototype as any).toJSON = function () {
+    return this.toString();
+  };
+  return season?.episodes;
 }
