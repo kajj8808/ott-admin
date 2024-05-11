@@ -3,7 +3,11 @@
 import { Variants, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 
-export default function WatchPage() {
+export default function WatchPage({
+  params: { id },
+}: {
+  params: { id: string };
+}) {
   const router = useRouter();
   const icon: Variants = {
     hidden: {
@@ -44,7 +48,7 @@ export default function WatchPage() {
       </div>
 
       <video
-        src="http://kajj8808.store:8000/video/1715434639184"
+        src={`http://kajj8808.store:8000/video/${id}`}
         controls
         className="w-full h-screen"
         autoPlay
