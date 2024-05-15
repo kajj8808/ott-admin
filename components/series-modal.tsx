@@ -99,7 +99,7 @@ export default function SeriesModal({
           <div className="flex flex-col">
             {episodes.map((episode) => (
               <Link
-                href={`/watch/${episode.videoId}`}
+                href={`/watch/${episode.id}`}
                 key={episode.id}
                 className="mx-5 mb-3 border-b rounded-md cursor-pointer border-product-color border-opacity-30"
               >

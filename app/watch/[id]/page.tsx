@@ -1,13 +1,16 @@
 "use client";
 
+import { Episode } from "@prisma/client";
 import { Variants, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function WatchPage({
   params: { id },
 }: {
   params: { id: string };
 }) {
+  const [episode, setEpisode] = useState<Episode>();
   const router = useRouter();
   const icon: Variants = {
     hidden: {
@@ -21,6 +24,11 @@ export default function WatchPage({
   const goBack = () => {
     router.back();
   };
+  useEffect(() => {
+    fetch(`${window.origin}/api/episode/${id}`)
+      .then((res) => res.json())
+      .then((json) => setEpisode(json.episode));
+  }, [id]);
   return (
     <div className="relative w-full h-full bg-product-background">
       <div
@@ -47,12 +55,26 @@ export default function WatchPage({
         </svg>
       </div>
 
-      <video
-        src={`http://kajj8808.store:8000/video/${id}`}
-        controls
-        className="w-full h-screen"
-        autoPlay
-      ></video>
+      {episode ? (
+        <video
+          controls
+          className="w-full h-screen"
+          autoPlay
+          crossOrigin="anonymous"
+        >
+          <source
+            src={`http://kajj8808.store:8000/video/${episode.videoId}`}
+            type="video/mp4"
+          />
+          <track
+            kind="subtitles"
+            srcLang="kr"
+            label="English"
+            src={`http://kajj8808.store:8000/subtitle/${episode.vttId}`}
+            default
+          ></track>
+        </video>
+      ) : null}
     </div>
   );
 }
