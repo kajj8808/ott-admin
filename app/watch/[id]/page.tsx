@@ -62,15 +62,12 @@ export default function WatchPage({
           autoPlay
           crossOrigin="anonymous"
         >
-          <source
-            src={`https://kajj8808.store:8000/video/${episode.videoId}`}
-            type="video/mp4"
-          />
+          <source src={`/video/${episode.videoId}`} type="video/mp4" />
           <track
             kind="subtitles"
             srcLang="kr"
             label="English"
-            src={`http://kajj8808.store:8000/subtitle/${episode.vttId}`}
+            src={`/subtitle/${episode.vttId}`}
             default
           ></track>
         </video>
