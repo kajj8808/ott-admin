@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/video/:id",
+      "destination": "http://kajj8808.store:8000/video/:id"
+    }
+  ]
+}
