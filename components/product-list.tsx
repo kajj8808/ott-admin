@@ -1,6 +1,9 @@
 import { getSeriesList } from "@/app/data";
 import ProductItem from "./product-item";
+export const revalidate = 0; //Very important
 
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 export default async function ProductList() {
   const seriesList = await getSeriesList();
 

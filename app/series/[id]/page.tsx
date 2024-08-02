@@ -3,7 +3,10 @@ import ProductItem from "@/components/product-item";
 import ProductList from "@/components/product-list";
 import SeriesModal from "@/components/series-modal";
 import { unstable_cache } from "next/cache";
+export const revalidate = 0; //Very important
 
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 export default async function SeriesPage({
   params: { id },
 }: {
