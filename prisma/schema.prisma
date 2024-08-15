@@ -14,26 +14,36 @@ model User {
 }
 
 model Series {
-  id         Int      @id @default(autoincrement())
-  title      String   @unique
-  overview   String
-  coverImage String
-  logo       String?
-  createAt   DateTime @default(now())
-  updateAt   DateTime @default(now())
-  tmdbId     Int
-  seasons    Season[]
+  id                   Int      @id @default(autoincrement())
+  title                String   @unique
+  overview             String
+  coverImage           String
+  poster               String?
+  logo                 String?
+  createAt             DateTime @default(now())
+  updateAt             DateTime @default(now())
+  tmdbId               Int
+  seasons              Season[]
+  isOldOriginal        Boolean?
+  isMangaOriginal      Boolean?
+  isGameOriginal       Boolean?
+  isLightNovelOriginal Boolean?
 }
 
 model Season {
-  id         Int       @id @default(autoincrement())
-  number     Int
-  name       String
-  seriesId   Int?
-  autoUpload Boolean   @default(false)
-  nyaaQuery  String?
-  episodes   Episode[]
-  series     Series?   @relation(fields: [seriesId], references: [id])
+  id                   Int       @id @default(autoincrement())
+  number               Int
+  name                 String
+  autoUpload           Boolean   @default(false)
+  nyaaQuery            String?
+  skippedSeasonCount   Int?
+  excludedEpisodeCount Int?
+  isAss                Boolean?
+  isDB                 Boolean?
+  encoder              String?
+  episodes             Episode[]
+  seriesId             Int?
+  series               Series?   @relation(fields: [seriesId], references: [id])
 }
 
 model Episode {
@@ -43,9 +53,12 @@ model Episode {
   thumnail           String
   runningTime        Int
   number             Int
-  videoId            BigInt
-  vttId              Int?
+  videoId            String
+  smiId              String?
+  isSmi              Boolean?
+  isAss              Boolean?
   seasonId           Int?
+  kr_overview        Boolean?
   Season             Season?              @relation(fields: [seasonId], references: [id])
   EpisodeWatchRecord EpisodeWatchRecord[]
   DownloadedMagnet   DownloadedMagnet[]
@@ -56,9 +69,9 @@ model EpisodeWatchRecord {
   watchedAt DateTime @default(now())
   progress  Float    @default(0.0)
   episodeId Int
+  episode   Episode  @relation(fields: [episodeId], references: [id], onDelete: Cascade)
   userId    Int
-  episode   Episode  @relation(fields: [episodeId], references: [id])
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model AutoSeries {
@@ -67,8 +80,8 @@ model AutoSeries {
 }
 
 model DownloadedMagnet {
-  id           Int     @id @default(autoincrement())
-  cipherMagnet String  @unique
-  episode      Episode @relation(fields: [episodeId], references: [id])
-  episodeId    Int
+  id           Int      @id @default(autoincrement())
+  cipherMagnet String   @unique
+  episode      Episode? @relation(fields: [episodeId], references: [id], onDelete: SetNull)
+  episodeId    Int?
 }
