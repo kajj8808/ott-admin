@@ -63,13 +63,13 @@ export default function WatchPage({
           crossOrigin="anonymous"
         >
           <source src={`/video/${episode.videoId}`} type="video/mp4" />
-          <track
+          {/*    <track
             kind="subtitles"
             srcLang="kr"
             label="English"
             src={`/subtitle/${episode.smiId}`}
             default
-          ></track>
+          ></track> */}
         </video>
       ) : null}
     </div>
