@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 Int                  @id @default(autoincrement())
+  email              String
+  EpisodeWatchRecord EpisodeWatchRecord[]
+}
+
+model Series {
+  id                   Int                   @id @default(autoincrement())
+  title                String                @unique
+  overview             String
+  coverImage           String
+  poster               String?
+  logo                 String?
+  createAt             DateTime              @default(now())
+  updateAt             DateTime              @default(now())
+  tmdbId               Int                   @unique
+  seasons              Season[]
+  isOldOriginal        Boolean?
+  isMangaOriginal      Boolean?
+  isGameOriginal       Boolean?
+  isLightNovelOriginal Boolean?
+  isAutoUpdate         Boolean?
+  first_air_date       String?
+  genres               Genres[]              @relation("SeriesGenres")
+  homepage             String?
+  next_episode_to_air  DateTime?
+  original_name        String?
+  production_companies ProductionCompanies[] @relation("SeriesProductionCompanies")
+}
+
+model Genres {
+  id     Int      @id @default(autoincrement())
+  name   String
+  series Series[] @relation("SeriesGenres")
+}
+
+model ProductionCompanies {
+  id             Int      @id
+  logo_path      String
+  name           String
+  origin_country String
+  series         Series[] @relation("SeriesProductionCompanies")
+}
+
+model Season {
+  id                   Int       @id @default(autoincrement())
+  number               Int
+  name                 String
+  autoUpload           Boolean   @default(false)
+  nyaaQuery            String?
+  skippedSeasonCount   Int?
+  excludedEpisodeCount Int?
+  isAss                Boolean?
+  isDB                 Boolean?
+  encoder              String?
+  poster               String?
+  air_date             DateTime?
+  episodes             Episode[]
+  seriesId             Int?
+  series               Series?   @relation(fields: [seriesId], references: [id])
+}
+
+model Episode {
+  id                 Int                  @id @default(autoincrement())
+  title              String
+  description        String
+  thumnail           String
+  runningTime        Int
+  number             Int
+  videoId            String
+  smiId              String?
+  isSmi              Boolean?
+  isAss              Boolean?
+  seasonId           Int?
+  kr_overview        Boolean?
+  Season             Season?              @relation(fields: [seasonId], references: [id])
+  EpisodeWatchRecord EpisodeWatchRecord[]
+  DownloadedMagnet   DownloadedMagnet[]
+}
+
+model EpisodeWatchRecord {
+  id        Int      @id @default(autoincrement())
+  watchedAt DateTime @default(now())
+  progress  Float    @default(0.0)
+  episodeId Int
+  episode   Episode  @relation(fields: [episodeId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AutoSeries {
+  id     Int @id @default(autoincrement())
+  tmdbId Int @unique
+}
+
+model DownloadedMagnet {
+  id           Int      @id @default(autoincrement())
+  cipherMagnet String   @unique
+  episode      Episode? @relation(fields: [episodeId], references: [id], onDelete: SetNull)
+  episodeId    Int?
+}
