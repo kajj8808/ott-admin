@@ -5,8 +5,8 @@ import { registerSeries } from "./action";
 export default function SeriesInsert() {
   const [state, action] = useFormState(registerSeries, null);
   return (
-    <div>
-      <form action={action} className="p-5">
+    <div className="w-full">
+      <form action={action}>
         <div className="flex flex-col">
           <label htmlFor="tmdb_id">TMDB ID</label>
           <input

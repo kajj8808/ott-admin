@@ -50,7 +50,7 @@ async function getSeason(season: TMDBSeason, seriesId: number) {
         id: season.id,
         name: season.name,
         number: season.season_number,
-        autoUpload: true,
+        autoUpload: false,
         seriesId: seriesId,
         air_date: new Date(season.air_date),
         poster: makeTMDBImageURL(season.poster_path!),
