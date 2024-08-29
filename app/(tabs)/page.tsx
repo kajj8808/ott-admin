@@ -1,5 +1,6 @@
 import db from "@/lib/db";
 import Link from "next/link";
+import { unstable_cache as nextCache } from "next/cache";
 
 const getEpisdoes = async () => {
   const episodes = await db.episode.findMany({
@@ -10,8 +11,12 @@ const getEpisdoes = async () => {
   });
   return episodes;
 };
+const getCachedEpisodes = nextCache(getEpisdoes, ["watch"], {
+  revalidate: 180,
+});
+
 export default async function Page() {
-  const episodes = await getEpisdoes();
+  const episodes = await getCachedEpisodes();
   return (
     <div className="flex flex-col gap-5">
       {episodes.map((episode) => (
