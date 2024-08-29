@@ -1,4 +1,5 @@
 import db from "@/lib/db";
+import { unstable_cache as nextCache } from "next/cache";
 
 const getEpisode = async (id: number) => {
   const episode = await db.episode.findUnique({
@@ -8,8 +9,10 @@ const getEpisode = async (id: number) => {
   });
   return episode;
 };
+
+const getCachedEpisodes = nextCache(getEpisode, ["watch"], { revalidate: 180 });
 export default async function Page({ params }: { params: { id: number } }) {
-  const episode = await getEpisode(params.id);
+  const episode = await getCachedEpisodes(params.id);
 
   return (
     <div>
