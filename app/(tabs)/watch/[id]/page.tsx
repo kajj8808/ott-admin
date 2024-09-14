@@ -16,9 +16,10 @@ export default async function Page({ params }: { params: { id: number } }) {
   console.log(episode);
   return (
     <div>
-      <video controls>
+      <video controls crossOrigin="anonymous">
         <source
           src={`${process.env.MEDIA_SERVER_URL}/video/${episode?.video_id}`}
+          type="video/mp4"
         />
         {episode?.subtitle_id ? (
           <track
