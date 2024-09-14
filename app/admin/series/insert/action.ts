@@ -17,15 +17,17 @@ export async function registerSeries(_: any, formData: FormData) {
       errors: result.error.flatten(),
     };
   } else {
-    console.log(`http://localhost:3000/series/insert`);
-
     const json = await (
       await fetch(`${process.env.MEDIA_SERVER_URL}/series/insert`, {
         method: "POST",
-        body: formData,
+        body: JSON.stringify({
+          tmdb_id: result.data.tmdbId,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
     ).json();
-
     return {
       ok: json.ok,
     };

@@ -1,11 +1,11 @@
 import db from "@/lib/db";
-import Link from "next/link";
+import { Prisma } from "@prisma/client";
 import { unstable_cache as nextCache } from "next/cache";
 
-const getSeries = async () => {
+export const getSeries = async () => {
   const today = new Date();
   const sevenDaysLater = new Date();
-  sevenDaysLater.setDate(today.getDate() + 7);
+  sevenDaysLater.setDate(today.getDate() - 7);
   const series = await db.series.findMany({
     select: {
       id: true,
@@ -15,8 +15,8 @@ const getSeries = async () => {
     },
     where: {
       update_at: {
-        gte: today,
-        lte: sevenDaysLater,
+        gte: sevenDaysLater,
+        lte: today,
       },
     },
     orderBy: {
@@ -25,6 +25,8 @@ const getSeries = async () => {
   });
   return series;
 };
+
+export type Series = Prisma.PromiseReturnType<typeof getSeries>;
 
 const getEpisdoes = async () => {
   const episodes = await db.episode.findMany({
@@ -39,16 +41,3 @@ const getEpisdoes = async () => {
 const getCachedEpisodes = nextCache(getEpisdoes, ["watch"], {
   revalidate: 30,
 });
-
-export default async function Page() {
-  const series = await getSeries();
-  return (
-    <div className="flex flex-col gap-5">
-      {series.map((episode) => (
-        <Link href={`/watch/${episode.id}`} key={episode.id}>
-          {episode.title}
-        </Link>
-      ))}
-    </div>
-  );
-}

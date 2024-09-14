@@ -1,4 +1,4 @@
-import { unstable_cache as nextCache } from "next/cache";
+import { unstable_cache as nextCache, revalidatePath } from "next/cache";
 import { getSeasonsExcludingNyaaQuery } from "./action";
 import AddNyaaForm from "@/components/add-nyaa-form";
 
@@ -9,6 +9,8 @@ const cachedSeasons = nextCache(
 );
 
 export default async function AddNyaa() {
+  revalidatePath("/admin/season/add_nyaa");
+
   const seasons = await cachedSeasons();
   return (
     <div className="flex flex-col gap-4">

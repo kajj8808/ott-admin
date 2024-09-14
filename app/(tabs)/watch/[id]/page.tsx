@@ -10,16 +10,26 @@ const getEpisode = async (id: number) => {
   return episode;
 };
 
-const getCachedEpisodes = nextCache(getEpisode, ["watch"]);
 export default async function Page({ params }: { params: { id: number } }) {
+  const getCachedEpisodes = nextCache(getEpisode, [`episode-${params.id}`]);
   const episode = await getCachedEpisodes(params.id);
-
+  console.log(episode);
   return (
     <div>
-      <video
-        src={`${process.env.MEDIA_SERVER_URL}/video/${episode?.video_id}`}
-        controls
-      ></video>
+      <video controls>
+        <source
+          src={`${process.env.MEDIA_SERVER_URL}/video/${episode?.video_id}`}
+        />
+        {episode?.subtitle_id ? (
+          <track
+            src={`${process.env.MEDIA_SERVER_URL}/subtitle/${episode.subtitle_id}`}
+            kind="subtitles"
+            srcLang="kr"
+            label="한국어"
+            default
+          />
+        ) : null}
+      </video>
     </div>
   );
 }

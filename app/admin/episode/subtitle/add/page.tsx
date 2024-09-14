@@ -13,6 +13,7 @@ export default async function Page() {
           episodeTitle={`제${episode.number}화 ${episode.title}`}
           seriesTitle={episode.series?.title!}
           videoUrl={`${process.env.MEDIA_SERVER_URL}/video/${episode?.video_id}`}
+          videoId={episode.video_id}
         />
       ))}
     </div>

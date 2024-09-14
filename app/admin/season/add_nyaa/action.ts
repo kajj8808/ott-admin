@@ -1,3 +1,4 @@
+"use server";
 import db from "@/lib/db";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
@@ -25,9 +26,9 @@ export async function getSeasonsExcludingNyaaQuery() {
       },
     },
     orderBy: {
-      id: "desc",
+      series_id: "desc",
     },
-    take: 30,
+    take: 40,
   });
   return seasons;
 }

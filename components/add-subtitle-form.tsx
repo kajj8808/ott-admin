@@ -13,12 +13,14 @@ interface AddSubtitleForm {
   episodeTitle: string;
   seriesTitle: string;
   videoUrl: string;
+  videoId: string;
 }
 export default function AddSubtitleForm({
   episodeId,
   episodeTitle,
   seriesTitle,
   videoUrl,
+  videoId,
 }: AddSubtitleForm) {
   const [state, action] = useFormState(addSubtitle, null);
   const [vttUrl, setVttUrl] = useState<undefined | string>(undefined);
@@ -58,6 +60,16 @@ export default function AddSubtitleForm({
           <h3>{seriesTitle}</h3>
           <h4 className="text-sm">{episodeTitle}</h4>
         </div>
+        <div className="flex gap-1">
+          <input
+            type="checkbox"
+            name={`is_overlap`}
+            id={`${episodeId}_overlap`}
+          />
+          <label htmlFor={`${episodeId}_overlap`} className="text-sm">
+            ass 자막 입히기
+          </label>
+        </div>
         <div className="flex">
           <label htmlFor={`subtitle_${episodeId}`} className="cursor-pointer">
             <FolderPlusIcon className="size-8" />
@@ -65,10 +77,22 @@ export default function AddSubtitleForm({
         </div>
         <input
           type="file"
-          name={`subtitle_${episodeId}`}
+          name={`subtitle`}
           id={`subtitle_${episodeId}`}
           className="hidden"
           onChange={onChange}
+        />
+        <input
+          type="text"
+          name="episode_id"
+          defaultValue={episodeId}
+          className="hidden"
+        />
+        <input
+          type="text"
+          name="video_id"
+          defaultValue={videoId}
+          className="hidden"
         />
         <button>
           <PaperAirplaneIcon className="size-8" />
@@ -91,4 +115,3 @@ export default function AddSubtitleForm({
     </form>
   );
 }
-/* */
