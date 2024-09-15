@@ -1,6 +1,8 @@
 import { getEpisodes } from "./actions";
 import AddSubtitleForm from "@/components/add-subtitle-form";
 
+export const dynamic = "force-dynamic";
+
 export default async function Page() {
   const episodes = await getEpisodes();
 
