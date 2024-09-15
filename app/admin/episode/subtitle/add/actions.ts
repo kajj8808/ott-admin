@@ -6,6 +6,8 @@ import { convertSmiToVtt } from "@/lib/server/smiToVtt";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
+export const dynamic = "force-dynamic";
+
 export const getEpisodes = async () => {
   const episodes = await db.episode.findMany({
     where: {
