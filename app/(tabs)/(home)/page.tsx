@@ -8,7 +8,7 @@ export default async function Page() {
   const nowPlayingSeries = await getSeries();
   return (
     <div className="p-5 flex flex-col gap-3">
-      <ProductSlider series={nowPlayingSeries.slice(0, 2)} />
+      <ProductSlider series={nowPlayingSeries} />
     </div>
   );
 }
