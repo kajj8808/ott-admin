@@ -11,7 +11,9 @@ const getEpisode = async (id: number) => {
 };
 
 export default async function Page({ params }: { params: { id: number } }) {
-  const getCachedEpisodes = nextCache(getEpisode, [`episode-${params.id}`]);
+  const getCachedEpisodes = nextCache(getEpisode, [`episode-${params.id}`], {
+    revalidate: 10,
+  });
   const episode = await getCachedEpisodes(params.id);
 
   return (
