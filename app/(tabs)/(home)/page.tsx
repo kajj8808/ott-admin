@@ -15,7 +15,8 @@ export default async function Page() {
   return (
     <div className="p-5 flex flex-col gap-3">
       <ProductSlider series={nowPlayingSeries} />
-      <ProductSlider series={seriesIn2024Q4} />
+      {/*       <ProductSlider series={seriesIn2024Q4} />
+       */}{" "}
     </div>
   );
 }
