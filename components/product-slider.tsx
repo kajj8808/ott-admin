@@ -7,12 +7,12 @@ import { useEffect, useRef, useState } from "react";
 import Slider from "react-slick";
 
 interface ProductSliderProps {
-  series: Series;
+  series: Series[];
 }
 
 export default function ProductSlider({ series }: ProductSliderProps) {
   const sliderContainer = useRef<HTMLDivElement>(null);
-  const sliderItemBox = useRef<HTMLDivElement>(null);
+  const sliderItemBox = useRef<HTMLAnchorElement>(null);
 
   const [sliderMaxLenth, setSliderMaxLength] = useState(0);
   const [sliderIndex, setSliderIndex] = useState(0);
@@ -63,19 +63,21 @@ export default function ProductSlider({ series }: ProductSliderProps) {
   return (
     <div className="p-5 flex flex-col gap-3 w-full relative">
       <h3 className="font-medium text-2xl">Now playing</h3>
-      <div className="flex gap-2 relative" ref={sliderContainer}>
+      <div className="flex gap-2 relative transition-all" ref={sliderContainer}>
         {series.map((series) => (
-          <Link href={`/series/${series.id}`} key={series.id}>
-            <div className="series" ref={sliderItemBox}>
-              <div className="relative w-72 h-36 overflow-hidden rounded-lg">
-                <Image
-                  fill
-                  src={series.cover_image}
-                  alt={series.title}
-                  className="object-cover"
-                />
-              </div>
-            </div>
+          <Link
+            href={`/series/${series.id}`}
+            key={series.id}
+            ref={sliderItemBox}
+            className="min-w-full sm:min-w-72 h-36 overflow-hidden rounded-lg  relative"
+          >
+            <Image
+              src={series.cover_image}
+              alt={series.title}
+              width={680}
+              height={320}
+              className="object-cover"
+            />
           </Link>
         ))}
       </div>
