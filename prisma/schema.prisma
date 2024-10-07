@@ -110,6 +110,7 @@ model Series {
 
 model User {
   id                    Int                  @id @default(autoincrement())
-  email                 String
+  email                 String               @unique
+  password              String?
   episode_watch_records EpisodeWatchRecord[]
 }

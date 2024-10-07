@@ -17,8 +17,8 @@ export default function ProductSlider({ series }: ProductSliderProps) {
   const [sliderMaxLenth, setSliderMaxLength] = useState(0);
   const [sliderIndex, setSliderIndex] = useState(0);
 
-  const [isLeftBtnShow, setIsLeftBtnShow] = useState(false);
-  const [isRigthBtnShow, setIsRigthBtnShow] = useState(false);
+  const [isLeftBtnShow, setIsLeftBtnShow] = useState(true);
+  const [isRigthBtnShow, setIsRigthBtnShow] = useState(true);
 
   useEffect(() => {
     if (sliderContainer.current && sliderItemBox.current) {
@@ -37,6 +37,7 @@ export default function ProductSlider({ series }: ProductSliderProps) {
     // setIsRigthBtnShow
     if (sliderContainer.current && sliderItemBox.current) {
       const sliderItemBoxWidth = sliderItemBox.current.offsetWidth;
+      /* const gap = sliderIndex * 8 */
       sliderContainer.current.style.left = `-${
         sliderIndex * sliderItemBoxWidth
       }px`;
@@ -61,37 +62,41 @@ export default function ProductSlider({ series }: ProductSliderProps) {
   };
 
   return (
-    <div className="p-5 flex flex-col gap-3 w-full relative">
-      <h3 className="font-medium text-2xl">Now playing</h3>
-      <div className="flex gap-2 relative transition-all" ref={sliderContainer}>
-        {series.map((series) => (
-          <Link
-            href={`/series/${series.id}`}
-            key={series.id}
-            ref={sliderItemBox}
-            className="min-w-full sm:min-w-72 h-36 overflow-hidden rounded-lg  relative"
-          >
-            <Image
-              src={series.cover_image}
-              alt={series.title}
-              width={680}
-              height={320}
-              className="object-cover"
-            />
-          </Link>
-        ))}
-      </div>
+    <div className="flex">
       {isLeftBtnShow ? (
         <button
-          className="text-white absolute left-0 -top-6"
+          className="text-white bg-black min-w-[4%] bg-opacity-80 h-full z-40 col-span-1"
           onClick={onLeftClick}
         >
           left
         </button>
       ) : null}
+      <div
+        className="flex relative transition-all col-span-10"
+        ref={sliderContainer}
+      >
+        {series.map((series) => (
+          <Link
+            href={`/series/${series.id}`}
+            key={series.id}
+            ref={sliderItemBox}
+            className="min-w-[20%] pr-2"
+          >
+            <div className="overflow-hidden rounded-md">
+              <Image
+                src={series.cover_image}
+                alt={series.title}
+                width={680}
+                height={320}
+                className="object-cover"
+              />
+            </div>
+          </Link>
+        ))}
+      </div>
       {isRigthBtnShow ? (
         <button
-          className="text-white absolute left-11 -top-6"
+          className="text-white bg-black bg-opacity-80 h-full z-40 col-span-1 min-w-[4%]"
           onClick={onRigthClick}
         >
           rigth

@@ -1,18 +1,26 @@
 "use client";
 
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useFormStatus } from "react-dom";
 
 interface ButtonProps {
   text: string;
 }
+
 export default function Button({ text }: ButtonProps) {
   const { pending } = useFormStatus();
   return (
     <button
-      className="bg-lime-500 text-white px-3.5 py-2 font-medium rounded-lg hover:bg-lime-400 transition-colors disabled:bg-neutral-600 disabled:hover:bg-neutral-600"
       disabled={pending}
+      className="flex h-10 w-full items-center justify-center bg-blue-500 text-sm text-white transition-colors hover:bg-blue-600 disabled:bg-neutral-400 disabled:text-neutral-300"
     >
-      {text}
+      {pending ? (
+        <div className="size-5 animate-spin">
+          <ArrowPathIcon />
+        </div>
+      ) : (
+        text
+      )}
     </button>
   );
 }
