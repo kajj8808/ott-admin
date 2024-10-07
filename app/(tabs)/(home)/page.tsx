@@ -16,8 +16,10 @@ export default async function Page() {
   ); */
 
   return (
-    <div className="flex flex-col gap-3">
-      <h3 className="font-medium text-2xl">Now playing</h3>
+    <div className="flex flex-col gap-3 pt-3">
+      <h3 className="text-sm font-medium sm:text-base md:text-xl">
+        Now playing
+      </h3>
       <ProductSlider series={nowPlayingSeries} />
       {/*       <ProductSlider series={seriesIn2024Q4} />
        */}{" "}

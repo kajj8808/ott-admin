@@ -1,6 +1,7 @@
 "use client";
 
 import { Series } from "@/app/(tabs)/(home)/actions";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -20,12 +21,17 @@ export default function ProductSlider({ series }: ProductSliderProps) {
   const [isLeftBtnShow, setIsLeftBtnShow] = useState(true);
   const [isRigthBtnShow, setIsRigthBtnShow] = useState(true);
 
+  const [sliderItemBoxWidth, setSliderItemBoxWidth] = useState(0);
+
+  const [itemPaddingLeft, setItemPaddingLeft] = useState(0);
+  const [itemPaddingRight, setItemPaddingRight] = useState(0);
+
   useEffect(() => {
-    if (sliderContainer.current && sliderItemBox.current) {
-      const sliderContainerWidth = sliderContainer.current.offsetWidth;
-      const sliderItemBoxWidth = sliderItemBox.current.offsetWidth;
-      setSliderMaxLength(Math.floor(sliderContainerWidth / sliderItemBoxWidth));
-    }
+    updateSliderMaxLenth();
+    window.addEventListener("resize", updateSliderMaxLenth);
+    return () => {
+      window.removeEventListener("resize", updateSliderMaxLenth);
+    };
   }, [sliderContainer, sliderItemBox]);
 
   useEffect(() => {
@@ -34,15 +40,20 @@ export default function ProductSlider({ series }: ProductSliderProps) {
      * 2. 슬라이드 마지막 index일 경우 슬라이드 오른쪽 버튼 활성화.(마지막 인덱스 기준 -> 총 슬라이드 아이템 갯수 - 화면에 보이는 슬라이드 아이템 갯수.)
      */
     setIsLeftBtnShow(sliderIndex !== 0);
-    // setIsRigthBtnShow
-    if (sliderContainer.current && sliderItemBox.current) {
-      const sliderItemBoxWidth = sliderItemBox.current.offsetWidth;
-      /* const gap = sliderIndex * 8 */
-      sliderContainer.current.style.left = `-${
-        sliderIndex * sliderItemBoxWidth
-      }px`;
-    }
+    updateSliderItemSize();
+    window.addEventListener("resize", updateSliderItemSize);
+    return () => {
+      window.removeEventListener("resize", updateSliderItemSize);
+    };
   }, [sliderIndex]);
+
+  const updateSliderItemSize = () => {
+    if (sliderItemBox.current) {
+      const sliderItemBoxWidth =
+        sliderItemBox.current.getBoundingClientRect().width;
+      setSliderItemBoxWidth(sliderItemBoxWidth);
+    }
+  };
 
   useEffect(() => {
     // series의 갯수가 화면에 보이는 슬라이드 아이템보다 적다면 표시 x
@@ -53,6 +64,31 @@ export default function ProductSlider({ series }: ProductSliderProps) {
     }
   }, [sliderMaxLenth, series]);
 
+  useEffect(() => {
+    updatePaddingWidth();
+    window.addEventListener("resize", updatePaddingWidth);
+    return () => {
+      window.removeEventListener("resize", updatePaddingWidth);
+    };
+  }, [sliderItemBox]);
+
+  const updatePaddingWidth = () => {
+    const boxStyle = window.getComputedStyle(sliderItemBox.current!);
+    const paddingLeft = parseFloat(boxStyle.paddingLeft);
+    const paddingRight = parseFloat(boxStyle.paddingRight);
+
+    setItemPaddingLeft(paddingLeft);
+    setItemPaddingRight(paddingRight);
+  };
+
+  const updateSliderMaxLenth = () => {
+    if (sliderContainer.current && sliderItemBox.current) {
+      const sliderContainerWidth = sliderContainer.current.offsetWidth;
+      const sliderItemBoxWidth = sliderItemBox.current.offsetWidth;
+      setSliderMaxLength(Math.floor(sliderContainerWidth / sliderItemBoxWidth));
+    }
+  };
+
   const onLeftClick = () => {
     setSliderIndex((prev) => prev - 1);
   };
@@ -62,27 +98,35 @@ export default function ProductSlider({ series }: ProductSliderProps) {
   };
 
   return (
-    <div className="flex">
+    <div className="relative flex">
       {isLeftBtnShow ? (
         <button
-          className="text-white bg-black min-w-[4%] bg-opacity-80 h-full z-40 col-span-1"
+          className="absolute z-40 col-span-1 flex h-full w-[4%] items-center justify-center rounded-r-sm bg-black bg-opacity-80 text-white transition-all"
+          style={{
+            width: `calc(4% - ${itemPaddingLeft}px)`,
+          }}
           onClick={onLeftClick}
         >
-          left
+          <div className="size-5">
+            <ChevronLeftIcon />
+          </div>
         </button>
       ) : null}
       <div
-        className="flex relative transition-all col-span-10"
+        className="relative col-span-10 flex px-[4%] transition-all"
         ref={sliderContainer}
+        style={{
+          left: -(sliderIndex * sliderItemBoxWidth),
+        }}
       >
         {series.map((series) => (
           <Link
             href={`/series/${series.id}`}
             key={series.id}
             ref={sliderItemBox}
-            className="min-w-[20%] pr-2"
+            className="min-w-[50%] px-1 min-[490px]:min-w-[33.333333%] sm:min-w-[33.333333%] md:min-w-[25%] lg:min-w-[20%]"
           >
-            <div className="overflow-hidden rounded-md">
+            <div className="overflow-hidden rounded-sm">
               <Image
                 src={series.cover_image}
                 alt={series.title}
@@ -96,10 +140,15 @@ export default function ProductSlider({ series }: ProductSliderProps) {
       </div>
       {isRigthBtnShow ? (
         <button
-          className="text-white bg-black bg-opacity-80 h-full z-40 col-span-1 min-w-[4%]"
+          className="absolute right-0 z-40 col-span-1 flex h-full items-center justify-center rounded-l-sm bg-black bg-opacity-80 text-white transition-all"
+          style={{
+            width: `calc(4% - ${itemPaddingRight}px)`,
+          }}
           onClick={onRigthClick}
         >
-          rigth
+          <div className="size-5">
+            <ChevronRightIcon />
+          </div>
         </button>
       ) : null}
     </div>
