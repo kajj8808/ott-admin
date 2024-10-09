@@ -9,6 +9,7 @@ import {
 import db from "@/lib/db";
 import { getSession } from "@/lib/session";
 import bcrypt from "bcrypt";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const loginSchema = z.object({
@@ -45,6 +46,7 @@ export async function login(_: any, formData: FormData) {
       const session = await getSession();
       session.id = user?.id;
       await session.save();
+      redirect("/");
     } else {
       return {
         fieldErrors: {
