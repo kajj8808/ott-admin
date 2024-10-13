@@ -1,8 +1,8 @@
-import ProductSlider from "@/components/product-slider";
-
 import { getNowPlayingSeries } from "./actions";
 
 import { unstable_cache as nextCache } from "next/cache";
+import Slider from "@/components/framer-slider";
+import ProductSlider from "@/components/product-slider";
 
 const getChachedNowPlaying = nextCache(getNowPlayingSeries, ["now-playing"], {
   revalidate: 60,
@@ -20,7 +20,8 @@ export default async function Page() {
       <h3 className="text-sm font-medium sm:text-base md:text-xl">
         Now playing
       </h3>
-      <ProductSlider series={nowPlayingSeries} />
+      <ProductSlider items={nowPlayingSeries} />
+      {/* <Slider /> */}
       {/*       <ProductSlider series={seriesIn2024Q4} />
        */}{" "}
     </div>
