@@ -3,6 +3,7 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { Series } from "@prisma/client";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function Slider({ series }: { series: Series[] }) {
@@ -28,7 +29,8 @@ export default function Slider({ series }: { series: Series[] }) {
         }}
       >
         {series.map((series) => (
-          <div
+          <Link
+            href={`/series/${series.id}`}
             key={series.id}
             className="flex min-w-[25%] items-center justify-center overflow-hidden rounded-md px-0.5 text-black"
           >
@@ -40,7 +42,7 @@ export default function Slider({ series }: { series: Series[] }) {
               className="pointer-events-none"
             />
             {series.logo}
-          </div>
+          </Link>
         ))}
       </div>
       <div

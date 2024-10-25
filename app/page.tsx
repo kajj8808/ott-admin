@@ -1,6 +1,6 @@
+import SeriesItem from "@/components/series-item";
 import Slider from "@/components/slider";
 import db from "@/lib/db";
-import Image from "next/image";
 
 const getSeries = async () => {
   const series = await db.series.findMany();
@@ -11,23 +11,24 @@ export default async function Home() {
 
   return (
     <div className="w-full overflow-hidden">
-      <span className="text-9xl">Hello?</span>
-      <Slider series={series} />
+      <div className="p-3">
+        <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-3xl font-medium text-transparent">
+          NEXT FLIX
+        </span>
+      </div>
+      <div className="flex flex-col gap-2">
+        <h4>Now Playing</h4>
+        <Slider series={series} />
+      </div>
       <div className="grid grid-cols-4 gap-2">
         {series.map((series) => (
-          <div key={series.id} className="relative overflow-hidden rounded-lg">
-            <Image
-              src={series.cover_image}
-              alt={series.title}
-              width={341}
-              height={192}
-              className="pointer-events-none"
-            />
-
-            <h4 className="absolute bottom-6 z-50">{series.title}</h4>
-            <div className="absolute left-0 top-0 z-40 h-full w-full bg-gradient-to-b from-transparent to-blue-300"></div>
-            {/* <h5>{series.overview}</h5> */}
-          </div>
+          <SeriesItem
+            key={series.id}
+            id={series.id}
+            coverImage={series.cover_image}
+            title={series.title}
+            overview={series.overview}
+          />
         ))}
       </div>
     </div>
