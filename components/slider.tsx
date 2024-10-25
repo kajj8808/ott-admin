@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { Series } from "@prisma/client";
 import Image from "next/image";
 import { useState } from "react";
@@ -15,10 +16,10 @@ export default function Slider({ series }: { series: Series[] }) {
   return (
     <div className="relative flex w-full items-center justify-between px-[4%]">
       <div
-        className="absolute left-0 top-0 z-30 flex h-full w-[4%] items-center justify-center bg-red-300 bg-opacity-50"
+        className="absolute left-0 top-0 z-30 flex h-full w-[4%] items-center justify-center rounded-r-md bg-neutral-800 bg-opacity-50"
         onClick={onPrevClick}
       >
-        p
+        <ChevronLeftIcon className="size-8" />
       </div>
       <div
         className="relative left-[-0%] flex overflow-visible transition-all"
@@ -29,23 +30,24 @@ export default function Slider({ series }: { series: Series[] }) {
         {series.map((series) => (
           <div
             key={series.id}
-            className="flex min-w-[25%] items-center justify-center px-0.5 text-black"
+            className="flex min-w-[25%] items-center justify-center overflow-hidden rounded-md px-0.5 text-black"
           >
             <Image
               src={series.cover_image}
               alt={series.title}
               width={341}
               height={192}
+              className="pointer-events-none"
             />
             {series.logo}
           </div>
         ))}
       </div>
       <div
-        className="absolute right-0 top-0 z-30 flex h-full w-[4%] items-center justify-center bg-red-700 bg-opacity-50"
+        className="absolute right-0 top-0 z-30 flex h-full w-[4%] items-center justify-center rounded-l-md bg-neutral-800 bg-opacity-50"
         onClick={onNextClick}
       >
-        n
+        <ChevronRightIcon className="size-8" />
       </div>
     </div>
   );
