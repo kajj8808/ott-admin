@@ -72,7 +72,7 @@ export default function SeriesItem({
       <AnimatePresence mode="wait">
         {isLoading ? (
           <motion.div
-            className="absolute left-0 top-0 z-50 size-full animate-pulse bg-neutral-700"
+            className="absolute left-0 top-0 z-50 size-full animate-pulse bg-neutral-800"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           />
