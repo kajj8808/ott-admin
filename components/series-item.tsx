@@ -34,7 +34,7 @@ export default function SeriesItem({
     const imageData = ctx?.getImageData(0, 0, canvas.width, canvas.height).data;
     if (imageData) {
       const averageColor = getAverageColor(imageData);
-      if (averageColor.r + averageColor.g + averageColor.b > 600) {
+      if (averageColor.r + averageColor.g + averageColor.b > 550) {
         setDarkText(true);
       }
       setAverageColor(averageColor);
@@ -52,17 +52,19 @@ export default function SeriesItem({
         alt={title}
         width={341}
         height={192}
-        className="pointer-events-none transition group-hover:scale-125"
+        className="pointer-events-none aspect-video w-full transition group-hover:scale-125"
         onLoad={onLoad}
       />
       <div
-        className={`absolute bottom-0 z-40 p-4 ${darkText ? "*:text-neutral-800" : "*:text-white"} `}
+        className={`absolute bottom-0 z-40 p-2 md:p-4 ${darkText ? "*:text-neutral-800" : "*:text-white"} `}
       >
-        <h4 className="line-clamp-1 text-sm font-semibold">{title}</h4>
+        <h4 className="line-clamp-1 text-xs font-semibold sm:text-sm">
+          {title}
+        </h4>
         <span className="line-clamp-1 text-xs">{overview}</span>
       </div>
       <div
-        className={`absolute left-0 top-0 z-30 h-full w-full bg-gradient-to-b from-transparent via-transparent`}
+        className={`absolute left-0 top-0 z-30 h-full w-full bg-gradient-to-b from-transparent`}
         style={
           {
             "--tw-gradient-to": `rgb(${averageColor.r},${averageColor.g},${averageColor.b})`,

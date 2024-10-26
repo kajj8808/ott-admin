@@ -3,7 +3,11 @@ import Slider from "@/components/slider";
 import db from "@/lib/db";
 
 const getSeries = async () => {
-  const series = await db.series.findMany();
+  const series = await db.series.findMany({
+    orderBy: {
+      update_at: "desc",
+    },
+  });
   return series;
 };
 export default async function Home() {
@@ -20,7 +24,7 @@ export default async function Home() {
         <h4>Now Playing</h4>
         <Slider series={series} />
       </div>
-      <div className="grid grid-cols-4 gap-2">
+      <div className="grid grid-cols-2 gap-2 p-4 sm:grid-cols-3 md:grid-cols-4">
         {series.map((series) => (
           <SeriesItem
             key={series.id}
