@@ -3,7 +3,7 @@ import { getAverageColor } from "@/lib/utile";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { CSSProperties, useState } from "react";
+import { CSSProperties, SyntheticEvent, useState } from "react";
 
 interface SeriesItemProps {
   id: number;
@@ -22,7 +22,8 @@ export default function SeriesItem({
   const [averageColor, setAverageColor] = useState({ r: 0, g: 0, b: 0 });
   const [darkText, setDarkText] = useState(false);
 
-  const onLoadingComplete = (img: HTMLImageElement) => {
+  const onLoad = (e: SyntheticEvent<HTMLImageElement, Event>) => {
+    const img = e.target as HTMLImageElement;
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
 
@@ -52,7 +53,7 @@ export default function SeriesItem({
         width={341}
         height={192}
         className="pointer-events-none transition group-hover:scale-125"
-        onLoadingComplete={onLoadingComplete}
+        onLoad={onLoad}
       />
       <div
         className={`absolute bottom-0 z-40 p-4 ${darkText ? "*:text-neutral-800" : "*:text-white"} `}
@@ -78,7 +79,6 @@ export default function SeriesItem({
           />
         ) : null}
       </AnimatePresence>
-      {/* <h5>{series.overview}</h5> */}
     </Link>
   );
 }
