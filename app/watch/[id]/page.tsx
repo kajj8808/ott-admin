@@ -2,6 +2,8 @@ import VideoPlayer from "@/components/video-player";
 import db from "@/lib/db";
 import { notFound } from "next/navigation";
 
+type Params = Promise<{ id: string }>;
+
 const getEpisode = async (id: number) => {
   const episode = await db.episode.findUnique({
     where: {
@@ -11,7 +13,7 @@ const getEpisode = async (id: number) => {
   return episode;
 };
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page({ params }: { params: Params }) {
   const { id } = await params;
   if (isNaN(Number(id))) {
     return notFound();

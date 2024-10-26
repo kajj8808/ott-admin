@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+type Params = Promise<{ id: string }>;
+
 const getSeires = async (id: number) => {
   const series = await db.series.findUnique({
     where: { id: id },
@@ -20,7 +22,7 @@ const getSeires = async (id: number) => {
   return series;
 };
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page({ params }: { params: Params }) {
   const { id } = await params;
 
   if (isNaN(Number(id))) {
