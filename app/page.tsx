@@ -1,3 +1,4 @@
+import GradientText from "@/components/gradient-text";
 import SeriesItem from "@/components/series-item";
 import Slider from "@/components/slider";
 import db from "@/lib/db";
@@ -16,9 +17,9 @@ export default async function Home() {
   return (
     <div className="w-full overflow-hidden">
       <div className="p-3">
-        <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-3xl font-medium text-transparent">
-          NEXT FLIX
-        </span>
+        <GradientText>
+          <h3 className="text-3xl font-medium">NEXT FLIX</h3>
+        </GradientText>
       </div>
       <div className="flex flex-col gap-2">
         <h4>Now Playing</h4>
