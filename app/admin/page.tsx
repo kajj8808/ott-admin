@@ -13,7 +13,7 @@ export default function Page() {
         </GradientText>
         <ul className="flex flex-col gap-1">
           <li className="transition hover:scale-125">
-            <Link href={"/admin/seires/insert"}>series insert</Link>
+            <Link href={"/admin/series/insert"}>series insert</Link>
           </li>
         </ul>
       </div>
