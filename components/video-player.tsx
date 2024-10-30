@@ -5,8 +5,9 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 interface VideoPlayerProps {
   videoUrl: string;
+  vttUrl: string;
 }
-export default function VideoPlayer({ videoUrl }: VideoPlayerProps) {
+export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const progressBarRef = useRef<HTMLInputElement | null>(null);
@@ -120,6 +121,13 @@ export default function VideoPlayer({ videoUrl }: VideoPlayerProps) {
             onTimeUpdate={onTimeUpdate}
           >
             <source src={videoUrl} />
+            <track
+              src={vttUrl}
+              kind="subtitles"
+              srcLang="kr"
+              label="한국어"
+              default
+            />
           </video>
           <canvas
             ref={canvasRef}

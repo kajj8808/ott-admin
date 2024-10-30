@@ -25,6 +25,7 @@ export default async function Page({ params }: { params: Params }) {
     <div>
       <VideoPlayer
         videoUrl={`${process.env.MEDIA_SERVER_URL}/video/${episode?.video_id}`}
+        vttUrl={`${process.env.MEDIA_SERVER_URL}/subtitle/${episode?.subtitle_id}`}
       />
     </div>
   );
