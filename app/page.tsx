@@ -25,7 +25,7 @@ export default async function Home() {
         <h4>Now Playing</h4>
         <Slider series={series} />
       </div>
-      <div className="grid grid-cols-2 gap-2 p-4 sm:grid-cols-3 md:grid-cols-4">
+      <div className="grid max-w-7xl grid-cols-2 gap-2 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {series.map((series) => (
           <SeriesItem
             key={series.id}

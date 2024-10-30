@@ -52,7 +52,7 @@ export default function SeriesItem({
         alt={title}
         width={341}
         height={192}
-        className="pointer-events-none aspect-video w-full transition group-hover:scale-125"
+        className="pointer-events-none aspect-video w-full transition group-hover:scale-110"
         onLoad={onLoad}
       />
       <div
