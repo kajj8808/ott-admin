@@ -56,6 +56,7 @@ export default function SubtitleForm({
         <video
           controls
           className="flex aspect-video items-center justify-center border border-dashed"
+          autoPlay
         >
           <source src={videoUrl} type="video/mp4" />
           <track

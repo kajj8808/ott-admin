@@ -62,9 +62,7 @@ export default async function Page({ params }: { params: Params }) {
                       alt={episode.title}
                       quality={70}
                       loading="lazy"
-                      placeholder="blur"
-                      blurDataURL={episode.thumnail!}
-                      className="w-full"
+                      className="w-full animate-pulse"
                     />
                   </div>
                   <div className="flex w-2/3 flex-col justify-center gap-2 pl-2.5">

@@ -1,6 +1,8 @@
 import SubtitleForm from "@/components/subtitle-form";
 import db from "@/lib/db";
 
+export const fetchCache = "default-no-store";
+
 async function getNonSubtitleEpisode() {
   const episodes = await db.episode.findMany({
     where: {
@@ -9,6 +11,9 @@ async function getNonSubtitleEpisode() {
     include: {
       series: true,
       season: true,
+    },
+    orderBy: {
+      id: "desc",
     },
   });
   return episodes;
