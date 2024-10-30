@@ -15,20 +15,21 @@ model DownloadedMagnet {
 }
 
 model Episode {
-  id                 Int                  @id @default(autoincrement())
-  title              String
-  description        String?
-  thumnail           String?
-  running_time       Int?
-  number             Float
-  video_id           String
-  subtitle_id        String?
-  season_id          Int
-  series_id          Int
-  is_ass             Boolean?
-  is_smi             Boolean?
-  is_overlap         Boolean?
-  kr_description     Boolean?
+  id             Int      @id @default(autoincrement())
+  title          String
+  description    String?
+  thumnail       String
+  running_time   Int?
+  number         Float
+  video_id       String
+  subtitle_id    String?
+  season_id      Int
+  series_id      Int
+  is_overlap     Boolean?
+  is_special     Boolean?
+  is_movie       Boolean?
+  kr_description Boolean?
+
   downloaded_magnets DownloadedMagnet[]
   season             Season?              @relation(fields: [season_id], references: [id], map: "Episode_seasonId_fkey")
   EpisodeWatchRecord EpisodeWatchRecord[]
@@ -72,7 +73,9 @@ model Season {
   encoder                String?
   is_ass                 Boolean?
   is_db                  Boolean?
+  is_4k                  Boolean?
   air_date               DateTime?
+  update_at              DateTime?
   poster                 String?
   episodes               Episode[]
   series                 Series?   @relation(fields: [series_id], references: [id])
@@ -96,7 +99,6 @@ model Series {
   homepage             String?
   next_episode_to_air  DateTime?
   original_name        String?
-  is_auto_update       Boolean?
   seasons              Season[]
   episodes             Episode[]
   genres               Genres[]              @relation("SeriesGenres")

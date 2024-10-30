@@ -23,7 +23,7 @@ export default function Page() {
         </GradientText>
         <ul className="flex flex-col gap-1">
           <li className="transition hover:scale-125">
-            <Link href={"/admin/seires/insert"}>add nyaa query</Link>
+            <Link href={"/admin/season/add/nyaa"}>add nyaa query</Link>
           </li>
           <li className="transition hover:scale-125">
             <Link href={"/admin/seires/insert"}>create season</Link>
@@ -37,7 +37,7 @@ export default function Page() {
         </GradientText>
         <ul className="flex flex-col gap-1">
           <li className="transition hover:scale-125">
-            <Link href={"/admin/seires/insert"}>add subtitle</Link>
+            <Link href={"/admin/episode/add/subtitle"}>add subtitle</Link>
           </li>
           <li className="transition hover:scale-125">
             <Link href={"/admin/seires/insert"}>create episode</Link>
