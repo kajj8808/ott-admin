@@ -152,12 +152,13 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
           />
         </div>
       ) : null}
-      <div
+      <div className="bg-gradient-radial size-8 to-red-300"></div>
+      {/* <div
         style={{
           background: `url(${previewImage})`,
         }}
         className="size-32 bg-red-200"
-      ></div>
+      ></div> */}
     </div>
   );
 }
