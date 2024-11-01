@@ -1,3 +1,4 @@
+"use client";
 export function getAverageColor(frameData: Uint8ClampedArray) {
   const frameDataLength = frameData?.length;
   const totalPixels = frameDataLength / 4;
@@ -13,4 +14,23 @@ export function getAverageColor(frameData: Uint8ClampedArray) {
     g: rgbData.g / totalPixels,
     b: rgbData.b / totalPixels,
   };
+}
+
+interface RGBColorProps {
+  r: number;
+  g: number;
+  b: number;
+}
+/** rgb의 총합을 계산하기 위한 함수 */
+export function calAddRGBColor({ r, g, b }: RGBColorProps) {
+  return r + g + b;
+}
+
+function componentToHex(c: number) {
+  const hex = parseInt(c).toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
+}
+
+export function rgbToHex({ r, g, b }: RGBColorProps) {
+  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }

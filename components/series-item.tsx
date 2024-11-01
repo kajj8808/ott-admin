@@ -55,6 +55,7 @@ export default function SeriesItem({
         className="pointer-events-none aspect-video w-full transition group-hover:scale-110"
         onLoad={onLoad}
       />
+      {/* group-hover:brightness-110 */}
       <div
         className={`absolute bottom-0 z-40 p-2 md:p-4 ${darkText ? "*:text-neutral-800" : "*:text-white"} `}
       >

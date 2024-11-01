@@ -1,7 +1,7 @@
 "use client";
 
-import { getAverageColor } from "@/lib/utile";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { calAddRGBColor, getAverageColor } from "@/lib/utile";
+import { ChangeEvent, CSSProperties, useEffect, useRef, useState } from "react";
 
 interface VideoPlayerProps {
   videoUrl: string;
@@ -13,44 +13,26 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
   const progressBarRef = useRef<HTMLInputElement | null>(null);
 
   const [isClient, setIsClient] = useState(false);
-  const [averageColor, setAverageColor] = useState({ r: 0, g: 0, b: 0 });
+  const [averageColor, setAverageColor] = useState({ r: 80, g: 80, b: 80 });
 
   const [progress, setProgress] = useState(0);
 
   const [previewImage, setPreviewImage] = useState("");
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const video = videoRef.current;
-      const canvas = canvasRef.current;
-      if (video && canvas) {
-        const ctx = canvas.getContext("2d");
-        ctx?.drawImage(video, 0, 0, canvas.width, canvas.height);
-        const frameData = ctx?.getImageData(
-          0,
-          0,
-          canvas.width,
-          canvas.height,
-        ).data;
-        if (frameData) {
-          const rgbColor = getAverageColor(frameData);
-
-          setAverageColor(rgbColor);
-        }
-      }
-    }, 333.333333);
-
     setIsClient(true);
-
-    return () => {
-      clearInterval(interval);
-    };
   }, []);
 
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.volume = 0.3;
     }
+    const interval = setInterval(() => {
+      setAmbientPulseColor();
+    }, 100);
+    return () => {
+      clearInterval(interval);
+    };
   }, [isClient]);
 
   const onTimeUpdate = () => {
@@ -93,6 +75,33 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
     }
   };
 
+  const setAmbientPulseColor = () => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    if (video && canvas) {
+      const ctx = canvas.getContext("2d");
+      ctx?.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const frameData = ctx?.getImageData(
+        0,
+        0,
+        canvas.width,
+        canvas.height,
+      ).data;
+      if (frameData) {
+        const rgbColor = getAverageColor(frameData);
+        const colorGap =
+          calAddRGBColor(rgbColor) - calAddRGBColor(averageColor);
+        console.log(Math.abs(colorGap));
+        if (calAddRGBColor(rgbColor) < 190) {
+          // 너무 어두워질시 animaton 끊키는 듯한 느낌이 들어 너무 어두워질시 고정값으로 처리
+          setAverageColor({ r: 80, g: 80, b: 80 });
+        } else {
+          setAverageColor(rgbColor);
+        }
+      }
+    }
+  };
+
   const onProgressbarMouseMove = () => {
     if (progressBarRef.current && videoRef.current) {
       /*  let hoverTime = (
@@ -108,9 +117,9 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
   };
 
   return (
-    <div>
+    <div className="flex h-dvh w-full flex-col items-center justify-center">
       {isClient ? (
-        <div>
+        <div className="relative">
           <video
             ref={videoRef}
             autoPlay={true}
@@ -119,6 +128,7 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
             defaultValue={0.2}
             preload="auto"
             onTimeUpdate={onTimeUpdate}
+            className="aspect-video"
           >
             <source src={videoUrl} />
             <track
@@ -131,16 +141,28 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
           </video>
           <canvas
             ref={canvasRef}
-            className="aspect-square border"
+            className="hidden aspect-square border"
             width={320}
             height={180}
           />
           <div
-            className="size-10"
-            style={{
-              backgroundColor: `rgb(${averageColor.r} , ${averageColor.g} , ${averageColor.b})`,
-            }}
-          ></div>
+            className="absolute top-0 -z-10 aspect-video w-full -scale-100 animate-slow-pulse bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-transparent to-transparent blur-3xl"
+            onAnimationIteration={setAmbientPulseColor}
+            style={
+              {
+                "--tw-gradient-from": `rgb(${averageColor.r} , ${averageColor.g} , ${averageColor.b})`,
+              } as CSSProperties
+            }
+          />
+          <div
+            className="absolute top-0 -z-10 aspect-video w-full scale-150 animate-slow-pulse bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-transparent to-transparent blur-3xl"
+            onAnimationIteration={setAmbientPulseColor}
+            style={
+              {
+                "--tw-gradient-from": `rgb(${averageColor.r} , ${averageColor.g} , ${averageColor.b})`,
+              } as CSSProperties
+            }
+          />
           <input
             type="range"
             min={0}
@@ -149,10 +171,11 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
             ref={progressBarRef}
             onMouseMove={onProgressbarMouseMove}
             onChange={onRangeInputChange}
+            className="w-full"
           />
         </div>
       ) : null}
-      <div className="bg-gradient-radial size-8 to-red-300"></div>
+
       {/* <div
         style={{
           background: `url(${previewImage})`,
