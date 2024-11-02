@@ -32,14 +32,18 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
     const futureCanvas = futureCanvasRef.current;
     if (video && canvas) {
       const ctx = canvas?.getContext("2d");
-
-      ctx?.drawImage(video, 0, 0, canvas?.width, canvas?.height);
+      if (!ctx) return;
+      ctx.imageSmoothingEnabled = true;
+      ctx.globalAlpha = 0.2;
+      ctx.drawImage(video, 0, 0, canvas?.width, canvas?.height);
     }
     if (video && futureCanvas) {
       const futureTime = video.currentTime + futureOffset;
       if (futureTime < video.duration) {
         const ctx = futureCanvas?.getContext("2d");
-
+        if (!ctx) return;
+        ctx.imageSmoothingEnabled = true;
+        ctx.globalAlpha = 0.2;
         const tempVideo = document.createElement("video");
 
         tempVideo.src = videoUrl;
