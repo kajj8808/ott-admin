@@ -2,15 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const futureOffset = 5; // 미래 프레임 시간 오프셋(3초 후 프레임을 예측)
-const blendSpeed = 0.3; // 트랜지션 속도 (0.1은 느리게, 0.5는 빠르게 전환)
-
-const canvasVariants = {
-  initial: {},
-  visible: {},
-  hidden: {},
-};
-
 interface VideoPlayerProps {
   videoUrl: string;
   vttUrl: string;
@@ -18,8 +9,6 @@ interface VideoPlayerProps {
 export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-  const [imageLoad, setImageLoad] = useState(false);
 
   const [currentTime, setCurrentTime] = useState(0);
 
@@ -53,7 +42,7 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
 
     const interval = setInterval(() => {
       if (video && canvas) {
-        //setCurrentTime(video.currentTime);
+        setCurrentTime(video.currentTime);
         drawImageFromVideo(canvas, video);
       }
     }, 3000);
@@ -62,8 +51,6 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
       clearInterval(interval);
     };
   }, []);
-
-  console.log(currentTime);
 
   return (
     <div className="flex h-dvh w-full flex-col items-center justify-center">
