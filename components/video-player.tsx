@@ -85,6 +85,7 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
           width={320}
           height={180}
         /> */}
+        {currentTime}
       </div>
     </div>
   );
