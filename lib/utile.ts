@@ -27,7 +27,7 @@ export function calAddRGBColor({ r, g, b }: RGBColorProps) {
 }
 
 function componentToHex(c: number) {
-  const hex = parseInt(c).toString(16);
+  const hex = Math.abs(c).toString(16);
   return hex.length == 1 ? "0" + hex : hex;
 }
 
