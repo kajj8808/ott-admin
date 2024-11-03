@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 interface VideoPlayerProps {
   videoUrl: string;
@@ -9,10 +9,9 @@ interface VideoPlayerProps {
 export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const futureCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  const [currentTime, setCurrentTime] = useState(0);
-
-  // const futureCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  // const [currentTime, setCurrentTime] = useState(0);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -29,28 +28,61 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
   const drawImageFromVideo = (
     canvas: HTMLCanvasElement,
     video: HTMLVideoElement,
+    isFuture?: boolean,
   ) => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    //  ctx.imageSmoothingEnabled = true;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    let alpha = isFuture ? 0.5 : 1;
+    // 프레임 마다 호출.
+    const drawFrame = () => {
+      if (isFuture && alpha < 1) {
+        alpha += 0.0005;
+        ctx.globalAlpha = alpha;
+      } else if (!isFuture && alpha > 0.5) {
+        alpha -= 0.0005;
+        ctx.globalAlpha = alpha;
+      }
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      requestAnimationFrame(drawFrame);
+    };
+
+    requestAnimationFrame(drawFrame);
   };
 
   useEffect(() => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
+    const futureCanvas = futureCanvasRef.current;
 
     const interval = setInterval(() => {
       if (video && canvas) {
-        setCurrentTime(video.currentTime);
         drawImageFromVideo(canvas, video);
       }
-    }, 3000);
+
+      if (video && futureCanvas) {
+        const futureTime = video.currentTime + 5; // second
+        /// 가상 비디오 만드는 파트
+
+        if (futureTime < video.duration) {
+          const tempVideo = document.createElement("video");
+          tempVideo.src = videoUrl;
+          tempVideo.currentTime = futureTime;
+          // video 준비된 상태
+          tempVideo.addEventListener("seeked", () => {
+            drawImageFromVideo(futureCanvas, tempVideo, true);
+          });
+        }
+      }
+    }, 5000);
 
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [videoUrl]);
 
   return (
     <div className="flex h-dvh w-full flex-col items-center justify-center">
@@ -73,19 +105,19 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
             default
           />
         </video>
+
         <canvas
           ref={canvasRef}
-          className="z-30 aspect-video size-32 scale-125 overflow-clip"
+          className="absolute top-0 z-30 aspect-video w-full max-w-2xl scale-90 overflow-clip blur-3xl"
           width={320}
           height={180}
         />
-        {/*         <canvas
+        <canvas
           ref={futureCanvasRef}
-          className="absolute top-0 z-30 aspect-video size-full scale-125 overflow-clip opacity-100 blur-3xl"
+          className="absolute top-0 z-30 aspect-video w-full max-w-2xl scale-90 overflow-clip blur-3xl"
           width={320}
           height={180}
-        /> */}
-        {currentTime}
+        />
       </div>
     </div>
   );
