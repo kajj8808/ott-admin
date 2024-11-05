@@ -30,8 +30,6 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
   /** ~ 초후 video frame을 얻기 위해 사용. */
   const futureCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  // const [currentTime, setCurrentTime] = useState(0);
-
   const [imageUrl, setImageUrl] = useState<string | null>();
 
   useEffect(() => {
@@ -102,30 +100,6 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
 
     drawFrame();
   };
-  const drawCanvasHandler = ({
-    canvasOne,
-    canvasTwo,
-    videoOne,
-    videoTwo,
-  }: DrawCanvasHandler) => {
-    drawFrameFromVideo({
-      canvas: canvasOne,
-      video: videoOne,
-      mode: "fadeOut",
-      maxAlpha: 0.9,
-      minAlpha: 0.1,
-      imageUrl: imageUrl!,
-    });
-
-    drawFrameFromVideo({
-      canvas: canvasTwo,
-      video: videoTwo,
-      mode: "fadeIn",
-      maxAlpha: 0.9,
-      minAlpha: 0.1,
-      isSave: true,
-    });
-  };
 
   useEffect(() => {
     const video = videoRef.current;
@@ -133,7 +107,30 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
     const futureCanvas = futureCanvasRef.current;
 
     if (!(video && canvas && futureCanvas)) return;
+    const drawCanvasHandler = ({
+      canvasOne,
+      canvasTwo,
+      videoOne,
+      videoTwo,
+    }: DrawCanvasHandler) => {
+      drawFrameFromVideo({
+        canvas: canvasOne,
+        video: videoOne,
+        mode: "fadeOut",
+        maxAlpha: 0.9,
+        minAlpha: 0.1,
+        imageUrl: imageUrl!,
+      });
 
+      drawFrameFromVideo({
+        canvas: canvasTwo,
+        video: videoTwo,
+        mode: "fadeIn",
+        maxAlpha: 0.9,
+        minAlpha: 0.1,
+        isSave: true,
+      });
+    };
     const drawCurrentAndFutureFrames = () => {
       const futureTime = video.currentTime + 5; // 5초 후 second
       /// 가상 비디오 생성
@@ -144,6 +141,7 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
         tempVideo.currentTime = futureTime;
         // video 준비된 상태
         tempVideo.addEventListener("seeked", () => {
+          console.log("load!");
           // play 중에만 작동하게 변경..
           drawCanvasHandler({
             canvasOne: canvas,
@@ -155,15 +153,12 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
       }
     };
 
-    drawCurrentAndFutureFrames();
-    const interval = setInterval(() => {
-      drawCurrentAndFutureFrames();
-    }, 5000);
+    video.addEventListener("loadedmetadata", drawCurrentAndFutureFrames);
 
     return () => {
-      clearInterval(interval);
+      removeEventListener("loadedmetadata", drawCurrentAndFutureFrames);
     };
-  }, [videoUrl]);
+  }, [videoUrl, imageUrl]);
 
   return (
     <div className="flex h-dvh w-full">
