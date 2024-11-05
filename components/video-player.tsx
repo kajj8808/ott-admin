@@ -19,7 +19,7 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
   }, []);
   console.log(videoRef.current);
   return (
-    <div className="flex h-dvh w-full">
+    <div className="flex h-dvh w-full items-center justify-center overflow-hidden">
       <div className="relative aspect-video">
         <video
           ref={videoRef}
@@ -28,7 +28,7 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
           crossOrigin="anonymous"
           defaultValue={0.2}
           preload="auto"
-          className="relative top-0 z-40 aspect-video max-w-2xl rounded-xl bg-transparent"
+          className="relative top-0 z-40 aspect-video bg-transparent"
         >
           <source src={videoUrl} />
           <track
@@ -40,7 +40,9 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
           />
         </video>
         {isVideoReady && (
-          <VideoAmbient video={videoRef.current} videoUrl={videoUrl} />
+          <div className="absolute left-0 top-0 aspect-video size-full">
+            <VideoAmbient video={videoRef.current} videoUrl={videoUrl} />
+          </div>
         )}
       </div>
     </div>

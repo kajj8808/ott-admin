@@ -113,7 +113,7 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
         video: videoOne,
         mode: "fadeOut",
         maxAlpha: 0.9,
-        minAlpha: 0.1,
+        minAlpha: 0,
         imageUrl: imageUrl!,
       });
 
@@ -122,7 +122,7 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
         video: videoTwo,
         mode: "fadeIn",
         maxAlpha: 0.9,
-        minAlpha: 0.1,
+        minAlpha: 0,
         isSave: true,
       });
     };
@@ -146,7 +146,9 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
         });
       }
     };
+
     drawCurrentAndFutureFrames();
+
     // 초기에 video가 로딩 되어 있지 않은 상태에서 함수를 실행하기 위해 사용.
     video.addEventListener("loadedmetadata", drawCurrentAndFutureFrames);
 
@@ -156,16 +158,16 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
   }, [video, videoUrl, imageUrl]);
 
   return (
-    <div className="relative">
+    <div className="animate-fade relative size-full">
       <canvas
         ref={canvasRef}
-        className="absolute top-0 z-30 aspect-video max-w-2xl scale-125 overflow-clip blur-3xl"
+        className="absolute top-0 z-30 aspect-video w-full scale-125 overflow-clip blur-3xl"
         width={320}
         height={180}
       />
       <canvas
         ref={futureCanvasRef}
-        className="absolute top-0 z-30 aspect-video max-w-2xl scale-125 overflow-clip blur-3xl"
+        className="absolute top-0 z-30 aspect-video w-full scale-125 overflow-clip blur-3xl"
         width={320}
         height={180}
       />
