@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import VideoAmbient from "./video-ambient";
 
 interface VideoPlayerProps {
@@ -9,13 +9,15 @@ interface VideoPlayerProps {
 }
 export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isVideoReady, setIsVideoReady] = useState(false);
 
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.volume = 0.2;
+      setIsVideoReady(true);
     }
   }, []);
-
+  console.log(videoRef.current);
   return (
     <div className="flex h-dvh w-full">
       <div className="relative aspect-video">
@@ -37,7 +39,9 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
             default
           />
         </video>
-        <VideoAmbient video={videoRef.current} videoUrl={videoUrl} />
+        {isVideoReady && (
+          <VideoAmbient video={videoRef.current} videoUrl={videoUrl} />
+        )}
       </div>
     </div>
   );

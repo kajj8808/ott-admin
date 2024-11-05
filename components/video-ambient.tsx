@@ -86,6 +86,7 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
           requestAnimationFrame(drawFrame);
         } else {
           // 애니메이션이 끝난 후 마지막 프레임을 state에 저장합니다.
+
           if (isSave) {
             setImageUrl(tempImageDataUrl);
           }
@@ -145,7 +146,8 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
         });
       }
     };
-
+    drawCurrentAndFutureFrames();
+    // 초기에 video가 로딩 되어 있지 않은 상태에서 함수를 실행하기 위해 사용.
     video.addEventListener("loadedmetadata", drawCurrentAndFutureFrames);
 
     return () => {
