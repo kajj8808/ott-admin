@@ -1,53 +1,172 @@
-import { useEffect, useRef } from "react";
+"use client";
 
-function TransitionCanvas() {
-  // HTMLCanvasElement 타입 지정
+import { useEffect, useRef, useState } from "react";
+
+interface DrawFrameFromVideo {
+  canvas: HTMLCanvasElement;
+  video: HTMLVideoElement;
+  mode?: "fadeOut" | "fadeIn";
+  minAlpha: number;
+  maxAlpha: number;
+  imageUrl?: string;
+  isSave?: boolean;
+}
+
+interface DrawCanvasHandler {
+  canvasOne: HTMLCanvasElement;
+  canvasTwo: HTMLCanvasElement;
+  videoOne: HTMLVideoElement;
+  videoTwo: HTMLVideoElement;
+}
+
+interface VideoAmbientProps {
+  video: HTMLVideoElement | null;
+  videoUrl: string;
+}
+
+export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
+  /** 현재 video frame을 얻기 위해 사용. */
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  // alpha 상태를 useRef로 관리하고 number 타입 지정
-  const alphaRef = useRef<number>(0);
+  /** ~ 초후 video frame을 얻기 위해 사용. */
+  const futureCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return; // canvas가 null이면 종료
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return; // context가 없으면 종료
+  // 이미지 간의 부드러운 전환을 위해서 이전의 image를 보관합니다.
+  const [imageUrl, setImageUrl] = useState<string | null>();
 
-    let animationFrameId: number;
+  const drawFrameFromVideo = ({
+    canvas,
+    video,
+    minAlpha,
+    maxAlpha,
+    mode,
+    imageUrl,
+    isSave,
+  }: DrawFrameFromVideo) => {
+    const ctx = canvas.getContext("2d")!;
 
-    const renderTransition = () => {
-      // 기존 canvas 초기화
+    const fadeIn = mode === "fadeIn";
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.globalAlpha = maxAlpha;
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    const tempImageDataUrl = canvas.toDataURL();
+    const tempImage = new Image();
+    tempImage.crossOrigin = "anonymous";
+    tempImage.src = imageUrl ? imageUrl : tempImageDataUrl;
+
+    // 기본 투명도 fade in, out 에 변경됩니다.
+    let alpha = fadeIn ? minAlpha : maxAlpha;
+    const fadeSpeed = 0.001; // 투명도 변화 속도 조정
+
+    // 프레임 마다 호출.
+    const drawFrame = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.globalAlpha = alpha;
+      ctx.drawImage(tempImage, 0, 0, canvas.width, canvas.height);
+      // fade in 0 -> 100 으로 투명도 올라가게.
+      if (fadeIn) {
+        if (alpha < maxAlpha) {
+          alpha += fadeSpeed;
+          ctx.globalAlpha = alpha;
+          requestAnimationFrame(drawFrame);
+        } else {
+          // 애니메이션이 끝난 후 마지막 프레임을 state에 저장합니다.
+          if (isSave) {
+            setImageUrl(tempImageDataUrl);
+          }
+        }
+      }
 
-      // 기존 canvas 그리기 (예시 색상)
-      ctx.fillStyle = "blue";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      // 새로운 canvas 내용 (예시 색상과 투명도)
-      ctx.globalAlpha = alphaRef.current;
-      ctx.fillStyle = "red";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      // 투명도 증가
-      alphaRef.current += 0.0001;
-      if (alphaRef.current < 1) {
-        animationFrameId = requestAnimationFrame(renderTransition);
-      } else {
-        ctx.globalAlpha = 1; // 전환 완료 시 최종 alpha 설정
+      // fade out 100 -> 0 으로 투명도 내려가게.
+      if (!fadeIn) {
+        if (alpha > minAlpha) {
+          alpha -= fadeSpeed;
+          ctx.globalAlpha = alpha;
+          requestAnimationFrame(drawFrame);
+        } else {
+          // 애니메이션이 끝난 후 마지막 프레임을 state에 저장합니다.
+          if (isSave) {
+            setImageUrl(tempImageDataUrl);
+          }
+        }
       }
     };
 
-    renderTransition(); // 애니메이션 시작
-    return () => cancelAnimationFrame(animationFrameId); // 정리
-  }, []);
+    drawFrame();
+  };
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const futureCanvas = futureCanvasRef.current;
+
+    if (!(video && canvas && futureCanvas)) return;
+    const drawCanvasHandler = ({
+      canvasOne,
+      canvasTwo,
+      videoOne,
+      videoTwo,
+    }: DrawCanvasHandler) => {
+      drawFrameFromVideo({
+        canvas: canvasOne,
+        video: videoOne,
+        mode: "fadeOut",
+        maxAlpha: 0.9,
+        minAlpha: 0.1,
+        imageUrl: imageUrl!,
+      });
+
+      drawFrameFromVideo({
+        canvas: canvasTwo,
+        video: videoTwo,
+        mode: "fadeIn",
+        maxAlpha: 0.9,
+        minAlpha: 0.1,
+        isSave: true,
+      });
+    };
+    const drawCurrentAndFutureFrames = () => {
+      const futureTime = video.currentTime + 5; // 5초 후 second
+      /// 가상 비디오 생성
+      if (futureTime < video.duration) {
+        const tempVideo = document.createElement("video");
+        tempVideo.crossOrigin = "anonymous";
+        tempVideo.src = videoUrl;
+        tempVideo.currentTime = futureTime;
+        // video 준비된 상태
+        tempVideo.addEventListener("seeked", () => {
+          // play 중에만 작동하게 변경..
+          drawCanvasHandler({
+            canvasOne: canvas,
+            canvasTwo: futureCanvas,
+            videoOne: video,
+            videoTwo: tempVideo,
+          });
+        });
+      }
+    };
+
+    video.addEventListener("loadedmetadata", drawCurrentAndFutureFrames);
+
+    return () => {
+      removeEventListener("loadedmetadata", drawCurrentAndFutureFrames);
+    };
+  }, [video, videoUrl, imageUrl]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="z-30 aspect-video size-32 scale-125 overflow-clip"
-      width={320}
-      height={180}
-    />
+    <div className="relative">
+      <canvas
+        ref={canvasRef}
+        className="absolute top-0 z-30 aspect-video max-w-2xl scale-125 overflow-clip blur-3xl"
+        width={320}
+        height={180}
+      />
+      <canvas
+        ref={futureCanvasRef}
+        className="absolute top-0 z-30 aspect-video max-w-2xl scale-125 overflow-clip blur-3xl"
+        width={320}
+        height={180}
+      />
+    </div>
   );
 }
-
-export default TransitionCanvas;
