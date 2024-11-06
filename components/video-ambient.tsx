@@ -23,6 +23,11 @@ interface VideoAmbientProps {
   video: HTMLVideoElement | null;
   videoUrl: string;
 }
+declare global {
+  interface Window {
+    tempVideo?: HTMLVideoElement;
+  }
+}
 
 export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
   /** 현재 video frame을 얻기 위해 사용. */
@@ -130,18 +135,22 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
       const futureTime = video.currentTime + 5; // 5초 후 second
       /// 가상 비디오 생성
       if (futureTime < video.duration) {
-        const tempVideo = document.createElement("video");
-        tempVideo.crossOrigin = "anonymous";
-        tempVideo.src = videoUrl;
-        tempVideo.currentTime = futureTime;
+        if (!window.tempVideo) {
+          const tempVideo = document.createElement("video");
+          tempVideo.crossOrigin = "anonymous";
+          tempVideo.src = videoUrl;
+          window.tempVideo = tempVideo;
+        }
+        window.tempVideo.currentTime = futureTime;
+
         // video 준비된 상태
-        tempVideo.addEventListener("seeked", () => {
+        window.tempVideo.addEventListener("seeked", () => {
           // play 중에만 작동하게 변경..
           drawCanvasHandler({
             canvasOne: canvas,
             canvasTwo: futureCanvas,
             videoOne: video,
-            videoTwo: tempVideo,
+            videoTwo: window.tempVideo!,
           });
         });
       }
@@ -158,7 +167,7 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
   }, [video, videoUrl, imageUrl]);
 
   return (
-    <div className="animate-fade relative size-full">
+    <div className="animate-fade relative size-full blur-3xl">
       <canvas
         ref={canvasRef}
         className="absolute top-0 z-30 aspect-video w-full scale-125 overflow-clip blur-3xl"
