@@ -166,21 +166,6 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
     };
   }, [video, videoUrl, imageUrl, drawCanvasHandler]);
 
-  useEffect(() => {
-    // 초기에 한번만 실행.
-    const canvas = canvasRef.current;
-
-    if (!(video && canvas)) return;
-    drawFrameFromVideo({
-      canvas: canvas,
-      video: video,
-      mode: "fadeIn",
-      maxAlpha: 0.9,
-      minAlpha: 0,
-      imageUrl: imageUrl!,
-    });
-  });
-
   return (
     <div className="relative size-full animate-fade blur-3xl">
       <canvas
