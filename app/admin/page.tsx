@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Page() {
   return (
-    <div className="flex h-dvh w-full flex-col items-center justify-center gap-2 text-center">
+    <div className="flex h-dvh w-full animate-fade flex-col items-center justify-center gap-2 text-center">
       <GradientText>
         <h3 className="p-5 text-3xl font-medium uppercase">Admin Page</h3>
       </GradientText>

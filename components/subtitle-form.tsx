@@ -1,6 +1,12 @@
 "use client";
 
-import { ChangeEvent, useActionState, useState } from "react";
+import {
+  ChangeEvent,
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Button from "./button";
 import {
   addSubtitle,
@@ -20,6 +26,8 @@ export default function SubtitleForm({
   videoUrl,
   videoId,
 }: SubtitleFormProps) {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
   const [state, action] = useActionState(addSubtitle, null);
 
   const [vttUrl, setVttUrl] = useState<null | string>(null);
@@ -46,6 +54,13 @@ export default function SubtitleForm({
     }
   };
 
+  useEffect(() => {
+    console.log(videoRef.current);
+    if (videoRef.current) {
+      videoRef.current.volume = 0.2;
+    }
+  }, [videoRef, vttUrl]);
+
   return (
     <form
       action={action}
@@ -54,6 +69,7 @@ export default function SubtitleForm({
       <h3 className="line-clamp-1">{title}</h3>
       {vttUrl ? (
         <video
+          ref={videoRef}
           controls
           className="flex aspect-video items-center justify-center border border-dashed"
           autoPlay
