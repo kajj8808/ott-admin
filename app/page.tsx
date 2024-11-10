@@ -5,10 +5,16 @@ import db from "@/lib/db";
 
 const getSeries = async () => {
   const series = await db.series.findMany({
+    where: {
+      episodes: {
+        some: {},
+      },
+    },
     orderBy: {
       update_at: "desc",
     },
   });
+
   return series;
 };
 export default async function Home() {
@@ -25,7 +31,7 @@ export default async function Home() {
         <h4>Now Playing</h4>
         <Slider series={series} />
       </div>
-      <div className="grid max-w-7xl grid-cols-2 gap-2 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      <div className="grid animate-fade grid-cols-2 gap-2 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7">
         {series.map((series) => (
           <SeriesItem
             key={series.id}

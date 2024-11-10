@@ -167,7 +167,7 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
   }, [video, videoUrl, imageUrl]);
 
   return (
-    <div className="animate-fade relative size-full blur-3xl">
+    <div className="relative size-full animate-fade blur-3xl">
       <canvas
         ref={canvasRef}
         className="absolute top-0 z-30 aspect-video w-full scale-125 overflow-clip blur-3xl"
