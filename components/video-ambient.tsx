@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface DrawFrameFromVideo {
   canvas: HTMLCanvasElement;
@@ -37,6 +37,29 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
 
   // 이미지 간의 부드러운 전환을 위해서 이전의 image를 보관합니다.
   const [imageUrl, setImageUrl] = useState<string | null>();
+
+  const drawCanvasHandler = useCallback(
+    ({ canvasOne, canvasTwo, videoOne, videoTwo }: DrawCanvasHandler) => {
+      drawFrameFromVideo({
+        canvas: canvasOne,
+        video: videoOne,
+        mode: "fadeOut",
+        maxAlpha: 0.9,
+        minAlpha: 0,
+        imageUrl: imageUrl!,
+      });
+
+      drawFrameFromVideo({
+        canvas: canvasTwo,
+        video: videoTwo,
+        mode: "fadeIn",
+        maxAlpha: 0.9,
+        minAlpha: 0,
+        isSave: true,
+      });
+    },
+    [imageUrl],
+  );
 
   const drawFrameFromVideo = ({
     canvas,
@@ -107,30 +130,7 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
     const futureCanvas = futureCanvasRef.current;
 
     if (!(video && canvas && futureCanvas)) return;
-    const drawCanvasHandler = ({
-      canvasOne,
-      canvasTwo,
-      videoOne,
-      videoTwo,
-    }: DrawCanvasHandler) => {
-      drawFrameFromVideo({
-        canvas: canvasOne,
-        video: videoOne,
-        mode: "fadeOut",
-        maxAlpha: 0.9,
-        minAlpha: 0,
-        imageUrl: imageUrl!,
-      });
 
-      drawFrameFromVideo({
-        canvas: canvasTwo,
-        video: videoTwo,
-        mode: "fadeIn",
-        maxAlpha: 0.9,
-        minAlpha: 0,
-        isSave: true,
-      });
-    };
     const drawCurrentAndFutureFrames = () => {
       const futureTime = video.currentTime + 5; // 5초 후 second
       /// 가상 비디오 생성
@@ -164,7 +164,22 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
     return () => {
       removeEventListener("loadedmetadata", drawCurrentAndFutureFrames);
     };
-  }, [video, videoUrl, imageUrl]);
+  }, [video, videoUrl, imageUrl, drawCanvasHandler]);
+
+  useEffect(() => {
+    // 초기에 한번만 실행.
+    const canvas = canvasRef.current;
+
+    if (!(video && canvas)) return;
+    drawFrameFromVideo({
+      canvas: canvas,
+      video: video,
+      mode: "fadeIn",
+      maxAlpha: 0.9,
+      minAlpha: 0,
+      imageUrl: imageUrl!,
+    });
+  });
 
   return (
     <div className="relative size-full animate-fade blur-3xl">
