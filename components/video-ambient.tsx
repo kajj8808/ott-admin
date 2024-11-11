@@ -37,7 +37,8 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
 
   // 이미지 간의 부드러운 전환을 위해서 이전의 image를 보관합니다.
   const [imageUrl, setImageUrl] = useState<string | null>();
-
+  /*   const [isAnimating, setIsAnimating] = useState(false);
+   */
   const drawCanvasHandler = useCallback(
     ({ canvasOne, canvasTwo, videoOne, videoTwo }: DrawCanvasHandler) => {
       drawFrameFromVideo({
@@ -71,7 +72,6 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
     isSave,
   }: DrawFrameFromVideo) => {
     const ctx = canvas.getContext("2d")!;
-
     const fadeIn = mode === "fadeIn";
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -126,10 +126,21 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
   };
 
   useEffect(() => {
+    console.log(new Date().getTime());
     const canvas = canvasRef.current;
     const futureCanvas = futureCanvasRef.current;
 
     if (!(video && canvas && futureCanvas)) return;
+
+    const handleSeeked = () => {
+      // play 중에만 작동하게 변경..
+      drawCanvasHandler({
+        canvasOne: canvas,
+        canvasTwo: futureCanvas,
+        videoOne: video,
+        videoTwo: window.tempVideo!,
+      });
+    };
 
     const drawCurrentAndFutureFrames = () => {
       const futureTime = video.currentTime + 5; // 5초 후 second
@@ -144,15 +155,7 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
         window.tempVideo.currentTime = futureTime;
 
         // video 준비된 상태
-        window.tempVideo.addEventListener("seeked", () => {
-          // play 중에만 작동하게 변경..
-          drawCanvasHandler({
-            canvasOne: canvas,
-            canvasTwo: futureCanvas,
-            videoOne: video,
-            videoTwo: window.tempVideo!,
-          });
-        });
+        window.tempVideo.addEventListener("seeked", handleSeeked);
       }
     };
 
@@ -162,7 +165,7 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
     video.addEventListener("loadedmetadata", drawCurrentAndFutureFrames);
 
     return () => {
-      removeEventListener("loadedmetadata", drawCurrentAndFutureFrames);
+      video.removeEventListener("loadedmetadata", drawCurrentAndFutureFrames);
     };
   }, [video, videoUrl, imageUrl, drawCanvasHandler]);
 
