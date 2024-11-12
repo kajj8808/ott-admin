@@ -39,6 +39,8 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
   const [imageUrl, setImageUrl] = useState<string | null>();
   /*   const [isAnimating, setIsAnimating] = useState(false);
    */
+  const [isLive, setIsLive] = useState<boolean>(false);
+
   const drawCanvasHandler = useCallback(
     ({ canvasOne, canvasTwo, videoOne, videoTwo }: DrawCanvasHandler) => {
       drawFrameFromVideo({
@@ -168,6 +170,16 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
       video.removeEventListener("loadedmetadata", drawCurrentAndFutureFrames);
     };
   }, [video, videoUrl, imageUrl, drawCanvasHandler]);
+
+  useEffect(() => {
+    const interval = setInterval(
+      () => {
+        setIsLive(true);
+      },
+      1000 * 60 * 5,
+    );
+    return clearInterval(interval);
+  }, []);
 
   return (
     <div className="relative size-full animate-fade blur-3xl">

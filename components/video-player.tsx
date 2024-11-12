@@ -17,7 +17,7 @@ export default function VideoPlayer({ videoUrl, vttUrl }: VideoPlayerProps) {
       setIsVideoReady(true);
     }
   }, []);
-  console.log(videoRef.current);
+
   return (
     <div className="flex h-dvh w-full items-center justify-center overflow-hidden">
       <div className="relative aspect-video">
