@@ -128,7 +128,6 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
   };
 
   useEffect(() => {
-    console.log(new Date().getTime());
     const canvas = canvasRef.current;
     const futureCanvas = futureCanvasRef.current;
 
@@ -180,6 +179,8 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
     );
     return clearInterval(interval);
   }, []);
+
+  console.log(isLive ? new Date().getTime() : "");
 
   return (
     <div className="relative size-full animate-fade blur-3xl">
