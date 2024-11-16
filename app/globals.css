@@ -5,6 +5,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --radial-circle: 101%;
+  --radial-center: 10%;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,19 +16,42 @@
   }
 }
 
+@media (min-width: 768px) {
+  :root {
+    --radial-circle: 102%;
+    --radial-center: 11%;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --radial-circle: 103%;
+    --radial-center: 12%;
+  }
+}
+
 body {
   color: #ededed;
   background: #0a0a0a;
   font-family: Arial, Helvetica, sans-serif;
 }
-.clip-bottom-curve {
+.main-slider-gradient-curve {
   mask-image: linear-gradient(
     rgb(255, 255, 255) 76.85%,
     rgba(255, 255, 255, 0.2) 100%
   );
   -webkit-mask-image: radial-gradient(
-    103% 12% at 50% 102%,
+    var(--radial-circle) var(--radial-center) at 50% 102%,
     transparent 50%,
     white 51%
   );
 }
+
+.main-slider-image-gradient {
+  mask-image: linear-gradient(
+    rgb(255, 255, 255) 76.85%,
+    rgba(255, 255, 255, 0.2) 100%
+  );
+}
+
+/* 101 10 */

@@ -1,7 +1,7 @@
 import GradientText from "@/components/gradient-text";
 import MainSlider from "@/components/main-slider";
-import PosterSlider from "@/components/poster-slider";
-import SeriesItem from "@/components/series-item";
+/* import PosterSlider from "@/components/poster-slider";
+import SeriesItem from "@/components/series-item"; */
 import db from "@/lib/db";
 
 const getSeries = async () => {
@@ -15,20 +15,19 @@ const getSeries = async () => {
       update_at: "desc",
     },
   });
-
   return series;
 };
 export default async function Home() {
   const series = await getSeries();
 
   return (
-    <div className="w-full animate-fade">
+    <div className="h-dvh w-full animate-fade overflow-x-hidden scroll-smooth">
       <div className="z-40 p-3">
         <GradientText>
           <h3 className="text-3xl font-semibold">NEXT FLIX</h3>
         </GradientText>
       </div>
-      <div className="overflow-visible px-5">
+      <div className="flex justify-center overflow-visible px-5">
         <MainSlider series={series} />
       </div>
       {/*       <div className="relative w-full p-5"></div>
