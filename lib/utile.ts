@@ -34,3 +34,6 @@ function componentToHex(c: number) {
 export function rgbToHex({ r, g, b }: RGBColorProps) {
   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
+
+/** 압축된/축소된 TMDB Image url을 original url으로 변경시키는 함수. */
+export function convertOriginalTMDBImage() {}

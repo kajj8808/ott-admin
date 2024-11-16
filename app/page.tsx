@@ -23,12 +23,12 @@ export default async function Home() {
 
   return (
     <div className="w-full animate-fade">
-      <div className="p-3">
+      <div className="z-40 p-3">
         <GradientText>
-          <h3 className="text-3xl font-medium">NEXT FLIX</h3>
+          <h3 className="text-3xl font-semibold">NEXT FLIX</h3>
         </GradientText>
       </div>
-      <div className="overflow-visible p-5">
+      <div className="overflow-visible px-5">
         <MainSlider series={series} />
       </div>
       {/*       <div className="relative w-full p-5"></div>

@@ -14,6 +14,9 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      clipPath: {
+        "half-circle-bottom": "ellipse(50% 100% at 50% 100%)",
+      },
       backgroundImage: {
         "gradient-radial":
           "radial-gradient(circle_at_center,_var(--tw-gradient-stops))",
