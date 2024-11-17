@@ -14,6 +14,10 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      scale: {
+        "175": "1.75",
+        "200": "2.00",
+      },
       clipPath: {
         "half-circle-bottom": "ellipse(50% 100% at 50% 100%)",
       },

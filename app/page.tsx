@@ -1,5 +1,6 @@
 import GradientText from "@/components/gradient-text";
 import MainSlider from "@/components/main-slider";
+import SeriesItem from "@/components/series-item";
 /* import PosterSlider from "@/components/poster-slider";
 import SeriesItem from "@/components/series-item"; */
 import db from "@/lib/db";
@@ -33,7 +34,7 @@ export default async function Home() {
       {/*       <div className="relative w-full p-5"></div>
        */}{" "}
       {/*  <PosterSlider series={series} />
-
+       */}
       <div className="grid grid-cols-2 gap-2 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7">
         {series.map((series) => (
           <SeriesItem
@@ -44,7 +45,7 @@ export default async function Home() {
             overview={series.overview}
           />
         ))}
-      </div> */}
+      </div>
     </div>
   );
 }

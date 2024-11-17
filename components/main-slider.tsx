@@ -46,7 +46,7 @@ export default function MainSlider({ series }: { series: SeriesItemProps[] }) {
           <Image
             src={series[0].cover_image!}
             alt={series[0].title}
-            className="main-slider-image-gradient transition-all group-hover:scale-110"
+            className="main-slider-image-gradient transform-gpu transition-all group-hover:scale-110"
             ref={imageRef}
             fill
             onLoad={() => setImageLoaded(true)}
@@ -71,7 +71,7 @@ export default function MainSlider({ series }: { series: SeriesItemProps[] }) {
           ref={canvasRef}
           width={341}
           height={192}
-          className="w-full scale-150 blur-3xl"
+          className="scale-200 w-full transform-gpu blur-3xl"
         />
       </div>
     </div>
