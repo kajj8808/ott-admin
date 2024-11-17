@@ -39,7 +39,6 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
   const [imageUrl, setImageUrl] = useState<string | null>();
   /*   const [isAnimating, setIsAnimating] = useState(false);
    */
-  const [isLive, setIsLive] = useState<boolean>(false);
 
   const drawCanvasHandler = useCallback(
     ({ canvasOne, canvasTwo, videoOne, videoTwo }: DrawCanvasHandler) => {
@@ -170,31 +169,19 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
     };
   }, [video, videoUrl, imageUrl, drawCanvasHandler]);
 
-  useEffect(() => {
-    const interval = setInterval(
-      () => {
-        setIsLive(true);
-      },
-      1000 * 60 * 5,
-    );
-    return clearInterval(interval);
-  }, []);
-
-  console.log(isLive ? new Date().getTime() : "");
-
   return (
     <div className="relative size-full animate-fade blur-3xl">
       <canvas
         ref={canvasRef}
         className="absolute top-0 z-30 aspect-video w-full scale-125 overflow-clip blur-3xl"
-        width={320}
-        height={180}
+        width={160}
+        height={90}
       />
       <canvas
         ref={futureCanvasRef}
         className="absolute top-0 z-30 aspect-video w-full scale-125 overflow-clip blur-3xl"
-        width={320}
-        height={180}
+        width={160}
+        height={90}
       />
     </div>
   );
