@@ -2,6 +2,7 @@
 
 import { formatToTimeAgo } from "@/lib/utile";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 interface SeriesItemProps {
@@ -12,6 +13,8 @@ interface SeriesItemProps {
   update_at: Date;
 }
 export default function MainSlider({ series }: { series: SeriesItemProps[] }) {
+  const navigation = useRouter();
+
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const imageRef = useRef<HTMLImageElement | null>(null);
 
@@ -29,32 +32,40 @@ export default function MainSlider({ series }: { series: SeriesItemProps[] }) {
     }
   }, [imageLoaded]);
 
+  const seriesClickHandler = (seriesId: number) => {
+    navigation.push(`/series/${seriesId}`);
+  };
+
   return (
-    <div className="relative aspect-video w-full max-w-screen-xl rounded-2xl bg-gradient-to-br p-1 dark:from-white dark:via-transparent dark:to-transparent">
-      <div className="main-slider-gradient-curve pointer-events-none size-full rounded-2xl">
-        <Image
-          src={series[0].cover_image!}
-          alt={series[0].title}
-          className="main-slider-image-gradient"
-          ref={imageRef}
-          fill
-          onLoad={() => setImageLoaded(true)}
-        />
-        <div className="absolute flex size-full flex-col justify-between rounded-2xl bg-gradient-to-b from-[rgba(0,0,0,0.3)] via-transparent to-[rgba(0,0,0,0.3)] px-10 py-10 drop-shadow-2xl sm:py-14 md:px-20 md:pb-16 lg:pb-24 xl:pb-28 xl:pt-[72px]">
-          <div>
-            <h1 className="line-clamp-2 w-1/2 text-pretty text-xl font-semibold sm:text-2xl md:text-5xl">
-              {series[0].title}
-            </h1>
-          </div>
-          <div className="flex flex-col gap-1">
-            <p className="font-semibold">{`${formatToTimeAgo(series[0].update_at.toString())} 업데이트`}</p>
-            <span className="line-clamp-2 text-xs font-medium text-neutral-300 md:text-sm xl:w-11/12">
-              {series[0].overview}
-            </span>
+    <div className="relative aspect-video w-full max-w-screen-xl">
+      <div
+        className="group relative aspect-video cursor-pointer rounded-2xl bg-gradient-to-br p-1 drop-shadow-2xl dark:from-white dark:via-transparent dark:to-transparent"
+        onClick={() => seriesClickHandler(series[0].id)}
+      >
+        <div className="main-slider-gradient-curve pointer-events-none size-full rounded-2xl">
+          <Image
+            src={series[0].cover_image!}
+            alt={series[0].title}
+            className="main-slider-image-gradient transition-all group-hover:scale-110"
+            ref={imageRef}
+            fill
+            onLoad={() => setImageLoaded(true)}
+          />
+          <div className="absolute flex size-full flex-col justify-end gap-1 rounded-2xl bg-gradient-to-b from-transparent via-transparent to-[rgba(0,0,0,0.5)] px-10 py-10 drop-shadow-2xl sm:pb-16 md:px-20 lg:pb-24 xl:pb-32">
+            <div>
+              <h1 className="line-clamp-2 w-1/2 text-pretty text-xl font-semibold sm:text-2xl md:text-5xl">
+                {series[0].title}
+              </h1>
+            </div>
+            <div className="flex flex-col gap-1">
+              <p className="font-semibold">{`${formatToTimeAgo(series[0].update_at.toString())} 업데이트`}</p>
+              <span className="line-clamp-2 text-xs font-medium text-neutral-300 md:text-sm xl:w-11/12">
+                {series[0].overview}
+              </span>
+            </div>
           </div>
         </div>
       </div>
-
       <div className="absolute bottom-0 left-0 right-0 top-0 -z-20 m-auto w-full">
         <canvas
           ref={canvasRef}
