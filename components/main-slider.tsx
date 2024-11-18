@@ -37,16 +37,16 @@ export default function MainSlider({ series }: { series: SeriesItemProps[] }) {
   };
 
   return (
-    <div className="relative aspect-video w-full max-w-screen-xl">
+    <div className="aspect-main-slider relative w-full">
       <div
-        className="group relative aspect-video cursor-pointer rounded-2xl bg-gradient-to-br p-1 drop-shadow-2xl dark:from-white dark:via-transparent dark:to-transparent"
+        className="aspect-main-slider group relative cursor-pointer rounded-2xl bg-gradient-to-br p-1 drop-shadow-2xl dark:from-white dark:via-transparent dark:to-transparent"
         onClick={() => seriesClickHandler(series[0].id)}
       >
         <div className="main-slider-gradient-curve pointer-events-none size-full rounded-2xl">
           <Image
             src={series[0].cover_image!}
             alt={series[0].title}
-            className="main-slider-image-gradient transform-gpu transition-all group-hover:scale-110"
+            className="main-slider-image-gradient transform-gpu object-cover object-center transition-all group-hover:scale-105"
             ref={imageRef}
             fill
             onLoad={() => setImageLoaded(true)}
@@ -71,7 +71,7 @@ export default function MainSlider({ series }: { series: SeriesItemProps[] }) {
           ref={canvasRef}
           width={341}
           height={192}
-          className="scale-200 w-full transform-gpu blur-3xl"
+          className="w-full scale-200 transform-gpu blur-3xl"
         />
       </div>
     </div>

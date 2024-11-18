@@ -18,6 +18,11 @@ const config: Config = {
         "175": "1.75",
         "200": "2.00",
       },
+      maxWidth: {
+        "8xl": "120rem",
+        "9xl": "124rem",
+        "10xl": "130rem",
+      },
       clipPath: {
         "half-circle-bottom": "ellipse(50% 100% at 50% 100%)",
       },
@@ -27,6 +32,9 @@ const config: Config = {
       },
       animation: {
         "slow-pulse": "ambient-pulse 7s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+      },
+      aspectRatio: {
+        "main-slider": "2.5 / 1",
       },
       keyframes: {
         "ambient-pulse": {
