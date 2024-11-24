@@ -20,14 +20,9 @@ const getSeries = async () => {
   return series;
 };
 const getMovies = async () => {
-  const movies = await db.series.findMany({
-    where: {
-      movies: {
-        some: {},
-      },
-    },
+  const movies = await db.movie.findMany({
     orderBy: {
-      update_at: "desc",
+      id: "desc",
     },
   });
   return movies;
@@ -51,7 +46,7 @@ export default async function Home() {
        */}{" "}
       <div className="flex flex-col gap-5">
         <PosterSlider key={"seires_slider"} series={series} />
-        <PosterSlider key={"movies_slider"} series={movies} />
+        <PosterSlider key={"movies_slider"} isMovie={true} series={movies} />
       </div>
       {/* <div className="flex justify-center">
         <div className="grid grid-cols-2 gap-2 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">

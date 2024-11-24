@@ -53,7 +53,7 @@ export default async function Page({ params }: { params: Params }) {
                 .sort((a, b) => a.number - b.number)
                 .map((episode) => (
                   <Link
-                    href={`/watch/${episode.id}`}
+                    href={`/watch/${episode.video_id}`}
                     key={`episode-${episode.id}`}
                     className="flex border-b border-neutral-700 p-3"
                   >

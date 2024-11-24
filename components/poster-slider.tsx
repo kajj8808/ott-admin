@@ -7,13 +7,13 @@ interface SeriesItemProps {
   id: number;
   poster: string | null;
   title: string;
-  overview: string;
 }
 export default function PosterSlider({
   series,
+  isMovie,
 }: {
   series: SeriesItemProps[];
-  key: string;
+  isMovie?: boolean;
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -77,7 +77,7 @@ export default function PosterSlider({
       >
         {series.map((item) => (
           <Link
-            href={`/series/${item.id}`}
+            href={isMovie ? `/movie/${item.id}` : `/series/${item.id}`}
             key={item.id}
             className="min-w-[20%] pr-2"
           >

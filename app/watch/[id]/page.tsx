@@ -4,13 +4,22 @@ import { notFound } from "next/navigation";
 
 type Params = Promise<{ id: string }>;
 
-const getEpisode = async (id: number) => {
-  const episode = await db.episode.findUnique({
+const getEpisode = async (videoId: string) => {
+  const episode = await db.episode.findFirst({
     where: {
-      id: id,
+      video_id: videoId,
     },
   });
   return episode;
+};
+
+const getMovie = async (videoId: string) => {
+  const movie = await db.movie.findFirst({
+    where: {
+      video_id: videoId,
+    },
+  });
+  return movie;
 };
 
 export default async function Page({ params }: { params: Params }) {
@@ -19,13 +28,17 @@ export default async function Page({ params }: { params: Params }) {
     return notFound();
   }
 
-  const episode = await getEpisode(Number(id));
+  const episode = await getEpisode(id);
+  const movie = await getMovie(id);
 
+  const data = episode ? { ...episode } : { ...movie };
+
+  console.log(data);
   return (
     <div>
       <VideoPlayer
-        videoUrl={`${process.env.MEDIA_SERVER_URL}/video/${episode?.video_id}`}
-        vttUrl={`${process.env.MEDIA_SERVER_URL}/subtitle/${episode?.subtitle_id}`}
+        videoUrl={`${process.env.MEDIA_SERVER_URL}/video/${data.video_id}`}
+        vttUrl={`${process.env.MEDIA_SERVER_URL}/subtitle/${data?.subtitle_id}`}
       />
     </div>
   );
