@@ -37,16 +37,16 @@ export default function MainSlider({ series }: { series: SeriesItemProps[] }) {
   };
 
   return (
-    <div className="aspect-main-slider relative w-full">
+    <div className="relative aspect-main-slider w-full">
       <div
-        className="aspect-main-slider group relative cursor-pointer rounded-2xl bg-gradient-to-br p-1 drop-shadow-2xl dark:from-white dark:via-transparent dark:to-transparent"
+        className="group relative aspect-main-slider cursor-pointer rounded-3xl bg-gradient-to-br p-px drop-shadow-2xl dark:from-white dark:via-transparent dark:to-transparent"
         onClick={() => seriesClickHandler(series[0].id)}
       >
-        <div className="main-slider-gradient-curve pointer-events-none size-full rounded-2xl">
+        <div className="main-slider-gradient-curve pointer-events-none size-full rounded-3xl">
           <Image
             src={series[0].cover_image!}
             alt={series[0].title}
-            className="main-slider-image-gradient transform-gpu object-cover object-center transition-all group-hover:scale-105"
+            className="main-slider-image-gradient transform-gpu object-cover object-top transition-all group-hover:scale-105"
             ref={imageRef}
             fill
             onLoad={() => setImageLoaded(true)}
