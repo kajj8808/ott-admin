@@ -14,6 +14,7 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      screens: { "3xl": "2020px" },
       scale: {
         "175": "1.75",
         "200": "2.00",
