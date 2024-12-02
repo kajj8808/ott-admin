@@ -169,6 +169,8 @@ export default function VideoAmbient({ video, videoUrl }: VideoAmbientProps) {
     };
   }, [video, videoUrl, imageUrl, drawCanvasHandler]);
 
+  /* FIXME: 애니메이션이 브라우저의 메모리 문제 등으로 멈추는 경우가 있음.. 멈추었다면 화면을 보고 있을 경우 다시 시작 하는 부분이 작성 필요 함. */
+
   return (
     <div className="relative size-full animate-fade blur-3xl">
       <canvas
