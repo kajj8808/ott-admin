@@ -79,14 +79,14 @@ export default function PosterSlider({
           <Link
             href={isMovie ? `/movie/${item.id}` : `/series/${item.id}`}
             key={item.id}
-            className="3xl:min-w-[12.5%] min-w-[20%] max-w-[20%] pr-2 2xl:min-w-[16.66666667%]"
+            className="min-w-[20%] max-w-[20%] pr-2 2xl:min-w-[16.66666667%] 3xl:min-w-[12.5%]"
           >
             <Image
               src={item.poster!}
               width={320}
               height={620}
               alt={item.title}
-              className="h-full overflow-hidden rounded-lg"
+              className="aspect-post h-full overflow-hidden rounded-lg"
             />
           </Link>
         ))}

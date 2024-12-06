@@ -36,6 +36,7 @@ const config: Config = {
       },
       aspectRatio: {
         "main-slider": "2.5 / 1",
+        post: "2 / 3",
       },
       keyframes: {
         "ambient-pulse": {
