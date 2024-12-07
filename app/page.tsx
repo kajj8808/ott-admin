@@ -42,8 +42,7 @@ export default async function Home() {
           <MainSlider series={series} />
         </div>
       </div>
-      {/*       <div className="relative w-full p-5"></div>
-       */}{" "}
+
       {/* FIXME: 메인 페이지 들어 왔을때 화면 사이즈에 poste가 맞지 않는 경우가 있음.. 수정*/}
       <div className="flex flex-col gap-5">
         <PosterSlider key={"seires_slider"} series={series} />

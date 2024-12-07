@@ -43,7 +43,7 @@ export default function PosterSlider({
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
+  /* TODO: 사이즈에 따라서 바뀌게 수정.. 아마 max size?  */
   const onLeftClick = () => {
     // -1 했을때 0 보다 작은 경우 => 슬라이더의 페이지가 제일 앞인 경우. 0으로 고정.
     if (page - 1 < 0) {
