@@ -18,7 +18,7 @@ export async function insertSeries(_: any, formData: FormData) {
       errors: result.error.flatten(),
     };
   } else {
-    await fetch("http://localhost:4000/series/insert", {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/series/insert`, {
       method: "POST",
       body: JSON.stringify({ seriesId: result.data.seriesId }),
       headers: {
