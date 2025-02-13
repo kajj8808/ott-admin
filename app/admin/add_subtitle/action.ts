@@ -1,10 +1,10 @@
 "use server";
 import { convertAssToVtt } from "@/app/lib/server/assToVtt";
 import { convertSmiToVtt } from "@/app/lib/server/smiToVtt";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { z } from "zod";
 
-interface Episode {
+export interface NonSubtitleEpisode {
   id: string;
   number: number;
   title: string;
@@ -25,7 +25,7 @@ export async function getNonSubtitleEpisode() {
   );
 
   if (response.ok) {
-    const json = (await response.json()).episodes as Episode[];
+    const json = (await response.json()).episodes as NonSubtitleEpisode[];
     return json;
   }
   // revalidateTag("subtitle");
@@ -54,7 +54,7 @@ const addSubtitleSchema = z.object({
   subtitle: z.any().refine((file: File) => checkSubtitleFile(file.name)),
   episodeId: z.string(),
 });
-export async function addSubtitle(_: any, formData: FormData) {
+export async function addSubtitle(_: unknown, formData: FormData) {
   const data = {
     isOverlap: formData.get("is_overlap"),
     subtitle: formData.get("subtitle"),

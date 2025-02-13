@@ -6,7 +6,7 @@ const formSchema = z.object({
   seriesId: z.string(),
 });
 
-export async function insertSeries(_: any, formData: FormData) {
+export async function insertSeries(_: unknown, formData: FormData) {
   const data = {
     seriesId: formData.get("series_id"),
   };

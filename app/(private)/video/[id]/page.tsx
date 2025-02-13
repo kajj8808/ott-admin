@@ -1,4 +1,4 @@
-async function getWatchDetail(id: string) {}
+// async function getWatchDetail(id: string) {}
 export default async function Page({
   params,
 }: {

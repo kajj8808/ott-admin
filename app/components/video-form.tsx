@@ -105,7 +105,11 @@ export default function VideoForm({ seasons }: VideoFormProps) {
           </label>
           {postUploadState.uploadedUrl && (
             <div>
-              <img src={postUploadState.uploadedUrl} crossOrigin="anonymous" />
+              <img
+                src={postUploadState.uploadedUrl}
+                crossOrigin="anonymous"
+                alt={postUploadState.uploadedUrl}
+              />
               <input
                 type="text"
                 className="hidden"
@@ -131,6 +135,7 @@ export default function VideoForm({ seasons }: VideoFormProps) {
               <img
                 src={thumbnailUploadState.uploadedUrl}
                 crossOrigin="anonymous"
+                alt={thumbnailUploadState.uploadedUrl}
               />
               <input
                 type="text"
@@ -212,6 +217,7 @@ export default function VideoForm({ seasons }: VideoFormProps) {
               <img
                 src={thumbnailUploadState.uploadedUrl}
                 crossOrigin="anonymous"
+                alt={thumbnailUploadState.uploadedUrl}
               />
               <input
                 type="text"

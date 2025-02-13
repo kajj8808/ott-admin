@@ -9,7 +9,7 @@ const formSchema = z.object({
   is_4k: z.boolean(),
 });
 
-export async function addNyaa(_: any, formData: FormData) {
+export async function addNyaa(_: unknown, formData: FormData) {
   const data = {
     nyaaQuery: formData.get("nyaa_query"),
     seasonId: formData.get("season_id"),

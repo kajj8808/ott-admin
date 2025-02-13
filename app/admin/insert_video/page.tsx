@@ -1,12 +1,13 @@
-import Button from "@/app/components/button";
-import Input from "@/app/components/input";
 import { Season } from "../add_nyaa/action";
 import VideoForm from "@/app/components/video-form";
 
 async function getSeasons() {
-  const response = await fetch("http://localhost:3003/season/list", {
-    method: "GET",
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/season/list`,
+    {
+      method: "GET",
+    },
+  );
   if (response.ok) {
     const json = (await response.json()).seasons as Season[];
     return json;

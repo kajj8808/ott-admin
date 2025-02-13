@@ -12,7 +12,7 @@ const moiveSchema = z.object({
   seriesId: z.string().nullable(),
 });
 
-export async function insertMovie(_: any, formData: FormData) {
+export async function insertMovie(_: unknown, formData: FormData) {
   const data = {
     title: formData.get("title"),
     description: formData.get("description"),
@@ -62,7 +62,7 @@ const episodeSchema = z.object({
   seriesId: z.string(),
 });
 
-export async function insertEpisode(_: any, formData: FormData) {
+export async function insertEpisode(_: unknown, formData: FormData) {
   const data = {
     title: formData.get("title"),
     description: formData.get("description"),

@@ -2,7 +2,6 @@
 
 import { useActionState } from "react";
 
-import { ArrowPathIcon } from "@heroicons/react/24/solid";
 import Button from "@/app/components/button";
 import { insertSeries } from "./action";
 import Input from "@/app/components/input";
@@ -18,7 +17,7 @@ export default function InsertSeries() {
       </form>
       {state?.errors ? (
         <span className="text-sm text-red-500">
-          state.errors.formErrors.join(" ")
+          {state.errors.formErrors.join(" ")}
         </span>
       ) : null}
     </div>

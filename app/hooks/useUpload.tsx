@@ -85,10 +85,10 @@ export default function useUpload(mediaType: string) {
   };
 
   useEffect(() => {
-    if (uploadedId) {
+    if (uploadedId && mediaType) {
       setUploadedUrl(`http://localhost:3003/${mediaType}/${uploadedId}`);
     }
-  }, [uploadedId]);
+  }, [uploadedId, mediaType]);
 
   return { state: { uploadedId, isLoading, uploadedUrl }, uploadFile, reset };
 }

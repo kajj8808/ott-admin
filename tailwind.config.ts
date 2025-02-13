@@ -14,5 +14,4 @@ export default {
       },
     },
   },
-  plugins: ["prettier-plugin-tailwindcss"],
 } satisfies Config;

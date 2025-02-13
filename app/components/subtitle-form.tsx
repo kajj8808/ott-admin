@@ -2,7 +2,6 @@
 
 import {
   ChangeEvent,
-  ReactHTMLElement,
   useActionState,
   useEffect,
   useRef,
@@ -10,13 +9,13 @@ import {
 } from "react";
 import {
   addSubtitle,
-  Episode,
+  NonSubtitleEpisode,
   subtitleTextToVttText,
 } from "../admin/add_subtitle/action";
 import Button from "./button";
 
 interface SubtitleFormProps {
-  episode: Episode;
+  episode: NonSubtitleEpisode;
 }
 export default function SubtitleForm({ episode }: SubtitleFormProps) {
   const [state, action, pending] = useActionState(addSubtitle, null);
