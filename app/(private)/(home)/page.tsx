@@ -1,18 +1,35 @@
+import Image from "next/image";
 import { getNewEpisode } from "./action";
+import Link from "next/link";
 
 export default async function Home() {
   const episodes = await getNewEpisode();
   console.log(episodes);
   return (
-    <div className="flex h-[100dvh] items-center justify-center">
-      <div className="flex flex-col gap-2">
+    <div className="flex justify-center p-5">
+      <div className="grid select-none auto-rows-min grid-cols-5 gap-2">
         {episodes?.map((episode) => (
-          <div key={episode.id} className="max-w-sm">
-            <h3 className="text-lg font-semibold">{episode.title}</h3>
-            <h4 className="truncate text-sm text-neutral-500">
-              {episode.description}
-            </h4>
-          </div>
+          <Link
+            href={`/video/${episode.video_id}`}
+            key={episode.id}
+            className="group max-w-sm"
+          >
+            <h5 className="truncate text-xs text-neutral-400">
+              {episode.series.title}
+            </h5>
+            <h3 className="text-lg font-semibold">
+              {episode.season.name} {episode.title}
+            </h3>
+            <div className="overflow-hidden rounded-md">
+              <Image
+                src={episode.thumbnail}
+                width={320}
+                height={240}
+                alt={`image-${episode.id}`}
+                className="transition group-hover:scale-105"
+              />
+            </div>
+          </Link>
         ))}
       </div>
 

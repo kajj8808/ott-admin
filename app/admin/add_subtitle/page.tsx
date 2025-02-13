@@ -9,7 +9,6 @@ const getCachedEpisodes = nextCache(getNonSubtitleEpisode, ["subtitle"], {
 
 export default async function Page() {
   const episodes = await getCachedEpisodes();
-  console.log(episodes);
   return (
     <div className="flex w-full flex-col items-center overflow-scroll p-3">
       <h3 className="text-3xl font-bold uppercase">Add Subtitle</h3>
