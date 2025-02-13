@@ -4,7 +4,7 @@ import { convertSmiToVtt } from "@/app/lib/server/smiToVtt";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 
-export interface Episode {
+interface Episode {
   id: string;
   number: number;
   title: string;
