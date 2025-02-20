@@ -3,7 +3,9 @@ export default function Page() {
     <div>
       <h3> Test Page </h3>
       <video controls className="aspect-video" crossOrigin="anonymous">
-        <source src={`http://localhost:3003/video/1739532393087`} />
+        <source
+          src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/video/1740059144359`}
+        />
       </video>
     </div>
   );

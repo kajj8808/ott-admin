@@ -7,12 +7,15 @@ export default function useUpload(mediaType: string) {
   const [uploadedId, setUploadedId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [maxUploads, setMaxUploads] = useState(0);
+  const [uploadedCount, setUploadedCount] = useState(0);
+
   const uploadFile = async (file: File) => {
     setIsLoading(true);
 
     const chunkSize = 1024 * 1024 * 5; // 5MB chunk size
     const totalChunks = Math.ceil(file.size / chunkSize);
-
+    setMaxUploads(totalChunks);
     const chunkInfos: {
       start: number;
       end: number;
@@ -21,6 +24,7 @@ export default function useUpload(mediaType: string) {
     for (let i = 0; i < totalChunks; i++) {
       const start = i * chunkSize;
       const end = Math.min(start + chunkSize, file.size);
+
       chunkInfos.push({
         start: start,
         end: end,
@@ -46,7 +50,7 @@ export default function useUpload(mediaType: string) {
       activeUploads++;
       try {
         const response = await fetch(
-          "http://localhost:3003/file-upload/upload",
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/file-upload/upload`,
           {
             method: "POST",
             body: formData,
@@ -61,12 +65,14 @@ export default function useUpload(mediaType: string) {
         }
       } finally {
         activeUploads--;
+        setUploadedCount((prev) => prev + 1);
       }
     };
 
     while (true) {
       if (activeUploads < maxConcurrentUploads) {
         const chunkInfo = chunkInfos.pop();
+        console.log(chunkInfo);
         if (chunkInfo) {
           uploadChunkInfo(chunkInfo, mediaType).catch(console.error);
         } else {
@@ -74,7 +80,7 @@ export default function useUpload(mediaType: string) {
           break;
         }
       } else {
-        await new Promise((resolve) => setTimeout(resolve, 100));
+        await new Promise((resolve) => setTimeout(resolve, 250));
         continue;
       }
     }
@@ -86,9 +92,15 @@ export default function useUpload(mediaType: string) {
 
   useEffect(() => {
     if (uploadedId && mediaType) {
-      setUploadedUrl(`http://localhost:3003/${mediaType}/${uploadedId}`);
+      setUploadedUrl(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/${mediaType}/${uploadedId}`,
+      );
     }
   }, [uploadedId, mediaType]);
 
-  return { state: { uploadedId, isLoading, uploadedUrl }, uploadFile, reset };
+  return {
+    state: { uploadedId, isLoading, uploadedUrl, maxUploads, uploadedCount },
+    uploadFile,
+    reset,
+  };
 }

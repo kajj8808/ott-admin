@@ -101,7 +101,13 @@ export default function VideoForm({ seasons }: VideoFormProps) {
               className="hidden"
               onChange={onVideoChange}
             />
-            <span>video_file</span>
+            {videoUploadState.isLoading ? (
+              <span>
+                {videoUploadState.uploadedCount}/{videoUploadState.maxUploads}
+              </span>
+            ) : (
+              <span>video_file</span>
+            )}
           </label>
           {postUploadState.uploadedUrl && (
             <div>
@@ -209,7 +215,13 @@ export default function VideoForm({ seasons }: VideoFormProps) {
               className="hidden"
               onChange={onVideoChange}
             />
-            <span>video_file</span>
+            {videoUploadState.isLoading ? (
+              <span>
+                {videoUploadState.uploadedCount}/{videoUploadState.maxUploads}
+              </span>
+            ) : (
+              <span>video_file</span>
+            )}
           </label>
 
           {thumbnailUploadState.uploadedUrl && (
