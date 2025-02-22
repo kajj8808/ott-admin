@@ -141,7 +141,9 @@ export default function useUpload(mediaType: string) {
                 setUploadedId(`${json.fileName}`);
               }
             } catch (error) {
-              console.error("Upload error:", error);
+              if (typeof error === "string") {
+                setError(error);
+              }
             } finally {
               clearTimeout(timeout);
             }
