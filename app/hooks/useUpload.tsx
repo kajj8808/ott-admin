@@ -25,7 +25,7 @@ export default function useUpload(mediaType: string) {
   const uploadFile = async (file: File) => {
     setIsLoading(true);
     setFile(file);
-    const chunkSize = 1024 * 1024 * 30; // 30MB chunk size
+    const chunkSize = 1024 * 1024 * 5; // 5MB chunk size
     const totalChunks = Math.ceil(file.size / chunkSize);
 
     const chunkInfos: {
@@ -105,7 +105,7 @@ export default function useUpload(mediaType: string) {
   useEffect(() => {
     const uploadChunks = async () => {
       if (!chunkInfos || !file) return;
-
+      // 서버의 부담을 줄이기 위해 한번에 10개씩만 보냄.
       for (let i = 0; i < Math.ceil(chunkInfos.length / 10); i++) {
         const slicedChunkInfos = chunkInfos.slice(i * 10, (i + 1) * 10);
         await Promise.all(
@@ -124,21 +124,35 @@ export default function useUpload(mediaType: string) {
               60 * 60 * 1000,
             ); // 60분 대기
             try {
-              const response = await fetch(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/file-upload/upload`,
-                {
-                  method: "POST",
-                  body: formData,
-                  signal: controller.signal,
-                },
-              );
-              if (!response.ok) {
-                throw new Error(`Upload failed with status ${response.status}`);
-              }
-              setUploadedCount((prev) => prev + 1);
-              const json = await response.json();
-              if (json.fileName) {
-                setUploadedId(`${json.fileName}`);
+              while (true) {
+                const response = await fetch(
+                  `${process.env.NEXT_PUBLIC_BACKEND_URL}/file-upload/upload`,
+                  {
+                    method: "POST",
+                    body: formData,
+                    signal: controller.signal,
+                  },
+                ).catch((e) => {
+                  console.error("Fetch error: ", e);
+                  return null; // 에러 발생 시 null 반환
+                });
+
+                if (!response) {
+                  console.error("Network error, retrying...");
+                  continue;
+                }
+
+                // 업로드가 성공하지 않는 경우 계속 반복합니다.
+                const json = await response.json();
+                if (!json.ok || response.status === 502) {
+                  continue;
+                } else {
+                  setUploadedCount((prev) => prev + 1);
+                  if (json.fileName) {
+                    setUploadedId(`${json.fileName}`);
+                  }
+                  break;
+                }
               }
             } catch (error) {
               if (typeof error === "string") {

@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default async function Home() {
   const episodes = await getNewEpisode();
-  console.log(episodes);
+
   return (
     <div className="flex justify-center p-5">
       <div className="grid select-none auto-rows-min grid-cols-5 gap-2">
