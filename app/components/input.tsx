@@ -10,7 +10,7 @@ export default function Input({ id, name, placeholder }: InputProps) {
       name={name}
       id={id}
       placeholder={placeholder}
-      className="rounded-sm p-3 text-center text-lg font-semibold text-neutral-900"
+      className="w-full rounded-sm p-3 text-center text-lg font-semibold text-neutral-900"
     />
   );
 }

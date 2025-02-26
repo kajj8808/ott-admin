@@ -25,7 +25,7 @@ export default function useUpload(mediaType: string) {
   const uploadFile = async (file: File) => {
     setIsLoading(true);
     setFile(file);
-    const chunkSize = 1024 * 1024 * 5; // 5MB chunk size
+    const chunkSize = 1024 * 1024 * 15; // 15MB chunk size
     const totalChunks = Math.ceil(file.size / chunkSize);
 
     const chunkInfos: {
@@ -110,27 +110,21 @@ export default function useUpload(mediaType: string) {
         const slicedChunkInfos = chunkInfos.slice(i * 10, (i + 1) * 10);
         await Promise.all(
           slicedChunkInfos.map(async (chunkInfo) => {
-            const formData = new FormData();
-            const blob = file.slice(chunkInfo.start, chunkInfo.end);
-            formData.append("fileName", file.name);
-            formData.append("fileIndex", chunkInfo.fileIndex.toString());
-            formData.append("chunks", chunkInfos.length.toString());
-            formData.append("blob", blob);
-            formData.append("mediaType", mediaType);
-
-            const controller = new AbortController();
-            const timeout = setTimeout(
-              () => controller.abort(),
-              60 * 60 * 1000,
-            ); // 60분 대기
             try {
+              const formData = new FormData();
+              const blob = file.slice(chunkInfo.start, chunkInfo.end);
+              formData.append("fileName", file.name);
+              formData.append("fileIndex", chunkInfo.fileIndex.toString());
+              formData.append("chunks", chunkInfos.length.toString());
+              formData.append("blob", blob);
+              formData.append("mediaType", mediaType);
+
               while (true) {
                 const response = await fetch(
                   `${process.env.NEXT_PUBLIC_BACKEND_URL}/file-upload/upload`,
                   {
                     method: "POST",
                     body: formData,
-                    signal: controller.signal,
                   },
                 ).catch((e) => {
                   console.error("Fetch error: ", e);
@@ -158,8 +152,6 @@ export default function useUpload(mediaType: string) {
               if (typeof error === "string") {
                 setError(error);
               }
-            } finally {
-              clearTimeout(timeout);
             }
           }),
         );

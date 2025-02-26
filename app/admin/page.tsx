@@ -1,12 +1,14 @@
+import Title from "../components/title";
+
 export default function Page() {
   return (
     <>
-      <h3 className="text-3xl font-bold">ADMIN</h3>
-      <ul>
+      <Title title="ADMIN PAGE" />
+      <ul className="mt-4 flex flex-col gap-1">
         <li>
           <a
             href="admin/insert_series"
-            className="text-sm uppercase text-neutral-400 transition hover:text-neutral-100"
+            className="text-sm font-semibold uppercase text-neutral-400 transition hover:text-neutral-100"
           >
             insert series
           </a>
@@ -14,7 +16,7 @@ export default function Page() {
         <li>
           <a
             href="admin/insert_video"
-            className="text-sm uppercase text-neutral-400 transition hover:text-neutral-100"
+            className="text-sm font-semibold uppercase text-neutral-400 transition hover:text-neutral-100"
           >
             insert video
           </a>
@@ -22,7 +24,7 @@ export default function Page() {
         <li>
           <a
             href="admin/add_nyaa"
-            className="text-sm uppercase text-neutral-400 transition hover:text-neutral-100"
+            className="text-sm font-semibold uppercase text-neutral-400 transition hover:text-neutral-100"
           >
             add nyaa
           </a>
@@ -30,7 +32,7 @@ export default function Page() {
         <li>
           <a
             href="admin/add_subtitle"
-            className="text-sm uppercase text-neutral-400 transition hover:text-neutral-100"
+            className="text-sm font-semibold uppercase text-neutral-400 transition hover:text-neutral-100"
           >
             add subtitle
           </a>

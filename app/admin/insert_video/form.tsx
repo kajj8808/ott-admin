@@ -1,10 +1,12 @@
 "use client";
+
 import { ChangeEvent, useActionState, useState } from "react";
-import { Season } from "../admin/add_nyaa/action";
-import Input from "./input";
-import Button from "./button";
-import { insertEpisode, insertMovie } from "../admin/insert_video/action";
-import useUpload from "../hooks/useUpload";
+import { Season } from "../add_nyaa/action";
+import { insertEpisode, insertMovie } from "./action";
+import useUpload from "@/app/hooks/use-upload";
+import Input from "@/app/components/input";
+import Button from "@/app/components/button";
+import Form from "@/app/components/ui/admin-form";
 
 interface VideoFormProps {
   seasons: Season[];
@@ -62,10 +64,9 @@ export default function VideoForm({ seasons }: VideoFormProps) {
   };
 
   return (
-    <div className="mt-2 flex w-full max-w-md flex-col gap-2 overflow-scroll">
+    <>
       {isMovieMode ? (
-        <form action={movieAction} className="flex flex-col gap-2">
-          <span className="text-sm text-neutral-400">Movie</span>
+        <Form action={movieAction} subTitle="Movie">
           <Input id="series_id" name="seriesId" placeholder="series_id" />
           <Input id="title" name="title" placeholder="title" />
           <Input
@@ -80,9 +81,7 @@ export default function VideoForm({ seasons }: VideoFormProps) {
           />
           {videoUploadState.uploadedUrl && (
             <div>
-              <video controls crossOrigin="anonymous">
-                <source src={videoUploadState.uploadedUrl} />
-              </video>
+              <span>{videoUploadState.uploadedId}</span>
               <input
                 type="text"
                 className="hidden"
@@ -93,13 +92,16 @@ export default function VideoForm({ seasons }: VideoFormProps) {
           )}
           <label
             htmlFor="video_file"
-            className={`border p-4 text-center ${videoUploadState.uploadedUrl && "hidden"}`}
+            className={`border p-4 text-center disabled:opacity-50 ${videoUploadState.uploadedUrl && "hidden"}`}
           >
             <input
               type="file"
               id="video_file"
               className="hidden"
               onChange={onVideoChange}
+              accept="video/mp4,video/avi,video/mov,video/wmv,video/flv,video/webm,video/mkv,.mkv"
+              maxLength={1}
+              disabled={videoUploadState.isLoading}
             />
             {videoUploadState.isLoading ? (
               <span>
@@ -169,10 +171,9 @@ export default function VideoForm({ seasons }: VideoFormProps) {
               {movieState.errors.formErrors.join(" ")}
             </span>
           ) : null}
-        </form>
+        </Form>
       ) : (
-        <form className="flex flex-col gap-2" action={episodeAction}>
-          <span className="text-sm text-neutral-400">Episode</span>
+        <Form action={episodeAction} subTitle="Episode">
           <select className="rounded-sm p-3 text-center text-lg font-semibold text-neutral-900">
             {seasons.map((season) => (
               <option key={season.id} value={season.id} className="w-5">
@@ -258,7 +259,7 @@ export default function VideoForm({ seasons }: VideoFormProps) {
               {episodeState.errors.formErrors.join(" ")}
             </span>
           ) : null}
-        </form>
+        </Form>
       )}
 
       <div
@@ -272,7 +273,7 @@ export default function VideoForm({ seasons }: VideoFormProps) {
       >
         change upload mode
       </div>
-    </div>
+    </>
   );
 }
 /* title

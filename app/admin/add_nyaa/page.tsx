@@ -1,5 +1,5 @@
-import NyaaForm from "@/app/components/nyaa-form";
 import { getSasons } from "./action";
+import NyaaForm from "./form";
 
 export default async function AddNyaa() {
   const seasons = await getSasons();

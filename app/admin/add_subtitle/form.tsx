@@ -11,8 +11,9 @@ import {
   addSubtitle,
   NonSubtitleEpisode,
   subtitleTextToVttText,
-} from "../admin/add_subtitle/action";
-import Button from "./button";
+} from "./action";
+import Button from "@/app/components/button";
+import Form from "@/app/components/ui/admin-form";
 
 interface SubtitleFormProps {
   episode: NonSubtitleEpisode;
@@ -52,7 +53,7 @@ export default function SubtitleForm({ episode }: SubtitleFormProps) {
   }, [videoRef, vttUrl]);
 
   return (
-    <form action={action} className="flex flex-col py-4">
+    <Form action={action} subTitle="Add Subtitle">
       <div>
         <h4 className="text-base font-medium">{episode.series.title}</h4>
         <span className="text-neutral-400">
@@ -110,6 +111,6 @@ export default function SubtitleForm({ episode }: SubtitleFormProps) {
           {Object.values(state.fieldErrors).flat().join(" ")}
         </span>
       ) : null}
-    </form>
+    </Form>
   );
 }

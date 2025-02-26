@@ -1,5 +1,6 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const moiveSchema = z.object({
@@ -81,15 +82,13 @@ export async function insertEpisode(_: unknown, formData: FormData) {
       errors: result.error.flatten(),
     };
   } else {
-    await fetch("http://localhost:3003/episode/insert", {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/episode/insert`, {
       method: "POST",
       body: JSON.stringify(result.data),
       headers: {
         "Content-Type": "application/json",
       },
     });
-    return {
-      errors: null,
-    };
+    redirect("/admin");
   }
 }
