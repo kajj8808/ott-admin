@@ -7,7 +7,7 @@ export default function Form({ action, subTitle, children }: FormProps) {
   return (
     <form
       action={action}
-      className="scrollbar-hide mt-2 flex w-96 max-w-sm flex-col gap-2 overflow-scroll"
+      className="mt-2 flex w-96 max-w-sm flex-col gap-2 overflow-scroll scrollbar-hide"
     >
       <span className="text-sm text-neutral-400">{subTitle}</span>
       {children}

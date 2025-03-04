@@ -4,9 +4,9 @@ import { ChangeEvent, useActionState, useState } from "react";
 import { Season } from "../add_nyaa/action";
 import { insertEpisode, insertMovie } from "./action";
 import useUpload from "@/app/hooks/use-upload";
-import Input from "@/app/components/input";
-import Button from "@/app/components/button";
-import Form from "@/app/components/ui/admin-form";
+import Input from "@/components/input";
+import Button from "@/components/button";
+import Form from "@/components/ui/admin-form";
 
 interface VideoFormProps {
   seasons: Season[];

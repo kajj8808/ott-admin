@@ -9,7 +9,10 @@ export default async function Page({
   return (
     <div className="flex items-center justify-center">
       <video controls className="aspect-video" crossOrigin="anonymous">
-        <source src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/video/${id}`} />
+        <source
+          src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/video/${id}`}
+          type="video/mp4"
+        />
         <track
           src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/subtitle/{id}`}
           kind="subtitles"

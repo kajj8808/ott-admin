@@ -12,8 +12,8 @@ import {
   NonSubtitleEpisode,
   subtitleTextToVttText,
 } from "./action";
-import Button from "@/app/components/button";
-import Form from "@/app/components/ui/admin-form";
+import Button from "@/components/button";
+import Form from "@/components/ui/admin-form";
 
 interface SubtitleFormProps {
   episode: NonSubtitleEpisode;

@@ -1,20 +1,22 @@
 "use client";
 
 import { useActionState } from "react";
-import { addNyaa, Season } from "./action";
-import Input from "@/app/components/input";
-import Button from "@/app/components/button";
-import Form from "@/app/components/ui/admin-form";
+import { addMagnet } from "./actions";
+import Input from "@/components/input";
+import Button from "@/components/button";
+import Form from "@/components/ui/admin-form";
 
-interface NyaaFormProps {
+import type { Season } from "../add_nyaa/action";
+
+interface MagnetFormProps {
   seasons: Season[];
 }
 
-export default function NyaaForm({ seasons }: NyaaFormProps) {
-  const [state, action, pending] = useActionState(addNyaa, null);
+export default function MagnetForm({ seasons }: MagnetFormProps) {
+  const [state, action, pending] = useActionState(addMagnet, null);
 
   return (
-    <Form action={action} subTitle="Add Nyaa">
+    <Form action={action} subTitle="Add Magnet">
       <select
         name="season_id"
         className="rounded-sm p-3 text-center text-lg font-semibold text-neutral-900"
@@ -25,7 +27,7 @@ export default function NyaaForm({ seasons }: NyaaFormProps) {
           </option>
         ))}
       </select>
-      <Input id="nyaa_query" name="nyaa_query" placeholder="nyaa query" />
+      <Input id="magnet_url" name="magnet_url" placeholder="Magnet Url" />
       <ul>
         <li>
           <input type="checkbox" name="is_db" id="is_db" />
@@ -40,7 +42,7 @@ export default function NyaaForm({ seasons }: NyaaFormProps) {
       <Button text="Send" pending={pending} />
       {state?.errors ? (
         <span className="text-sm text-red-500">
-          {state.errors.fieldErrors.nyaaQuery}
+          {state.errors.fieldErrors.magnetUrl}
         </span>
       ) : null}
     </Form>

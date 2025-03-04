@@ -2,11 +2,11 @@
 
 import { useActionState } from "react";
 
-import Button from "@/app/components/button";
+import Button from "@/components/button";
 import { insertSeries } from "./action";
-import Input from "@/app/components/input";
-import Title from "@/app/components/title";
-import Form from "@/app/components/ui/admin-form";
+import Input from "@/components/input";
+import Title from "@/components/title";
+import Form from "@/components/ui/admin-form";
 
 export default function InsertSeries() {
   const [state, action, pending] = useActionState(insertSeries, null);
