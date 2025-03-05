@@ -31,6 +31,9 @@ export default async function Home() {
             </div>
           </Link>
         ))}
+        <video controls className="aspect-video" crossOrigin="anonymous">
+          <source src={`/video/1740606350873`} />
+        </video>
       </div>
 
       {/* <video controls className="aspect-video w-96" crossOrigin="anonymous">
