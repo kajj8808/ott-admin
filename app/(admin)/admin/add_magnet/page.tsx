@@ -1,6 +1,8 @@
 import { getSasons } from "../add_nyaa/action";
 import MagnetForm from "./form";
 
+export const dynamic = "force-dynamic";
+
 export default async function AddMagnet() {
   const seasons = await getSasons();
 

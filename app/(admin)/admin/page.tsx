@@ -12,6 +12,7 @@ export default function Page() {
   return (
     <>
       <Title title="ADMIN PAGE" />
+
       <ul className="mt-4 flex flex-col gap-1">
         {links.map((link, index) => (
           <li key={index}>

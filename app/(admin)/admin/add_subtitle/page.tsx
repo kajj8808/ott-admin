@@ -7,6 +7,8 @@ const getCachedEpisodes = nextCache(getNonSubtitleEpisode, ["subtitle"], {
   tags: ["subtitle"],
 });
 
+export const dynamic = "force-dynamic";
+
 export default async function Page() {
   const episodes = await getCachedEpisodes();
   return (

@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OTT Admin 사이트
 
-## Getting Started
+이 프로젝트는 OTT 플랫폼의 관리자 사이트입니다. 이 사이트는 Next.js를 사용하여 개발되었습니다.
 
-First, run the development server:
+## 주요 기능
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- 비디오 업로드 및 관리
+- 자막 추가
+- 시리즈 추가
+- 마그넷 링크 추가
+- Nyaa 링크 추가
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 파일 구조
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `app/(admin)/admin/insert_video/form.tsx`: 비디오 업로드 폼
+- `app/(admin)/admin/add_subtitle/page.tsx`: 자막 추가 페이지
+- `app/(admin)/admin/insert_series/page.tsx`: 시리즈 추가 페이지
+- `app/(admin)/admin/add_magnet/page.tsx`: 마그넷 링크 추가 페이지
+- `app/(admin)/admin/add_nyaa/page.tsx`: Nyaa 링크 추가 페이지
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 설치 및 실행
 
-## Learn More
+1. 저장소를 클론합니다.
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   git clone https://github.com/your-repo/ott-admin.git
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. 프로젝트 디렉토리로 이동합니다.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   cd ott-admin
+   ```
 
-## Deploy on Vercel
+3. 필요한 패키지를 설치합니다.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   npm install
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. 개발 서버를 시작합니다.
+
+   ```bash
+   npm run dev
+   ```
+
+5. 브라우저에서 `http://localhost:3000`을 열어 애플리케이션을 확인합니다.

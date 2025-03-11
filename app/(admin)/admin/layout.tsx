@@ -6,7 +6,7 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-dvh w-full flex-col items-center justify-center overflow-scroll">
+    <div className="flex h-full min-h-dvh w-full flex-col items-center justify-center">
       {children}
     </div>
   );
