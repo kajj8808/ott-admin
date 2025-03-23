@@ -17,7 +17,7 @@ export default async function Home() {
             <h5 className="truncate text-xs text-neutral-400">
               {episode.series.title}
             </h5>
-            <h3 className="text-lg font-semibold">
+            <h3 className="truncate text-lg font-semibold">
               {episode.season.name} {episode.title}
             </h3>
             <div className="overflow-hidden rounded-md">
