@@ -7,7 +7,7 @@ export default async function Home() {
 
   return (
     <div className="flex justify-center p-5">
-      <div className="grid select-none auto-rows-min grid-cols-5 gap-2">
+      <div className="grid max-w-screen-xl select-none auto-cols-fr auto-rows-min grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
         {episodes?.map((episode) => (
           <Link
             href={`/video/${episode.video_id}`}
@@ -18,7 +18,7 @@ export default async function Home() {
               {episode.series.title}
             </h5>
             <h3 className="truncate text-lg font-semibold">
-              {episode.season.name} {episode.title}
+              {episode.season.name} {episode.number}화 [ {episode.title} ]
             </h3>
             <div className="overflow-hidden rounded-md">
               <Image
