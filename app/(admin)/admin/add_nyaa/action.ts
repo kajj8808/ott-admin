@@ -5,16 +5,12 @@ import { z } from "zod";
 const formSchema = z.object({
   nyaaQuery: z.string(),
   seasonId: z.string(),
-  is_db: z.boolean(),
-  is_4k: z.boolean(),
 });
 
 export async function addNyaa(_: unknown, formData: FormData) {
   const data = {
     nyaaQuery: formData.get("nyaa_query"),
     seasonId: formData.get("season_id"),
-    is_db: formData.get("is_db") === "on",
-    is_4k: formData.get("is_4k") === "on",
   };
   const result = formSchema.safeParse(data);
   if (!result.success) {

@@ -8,7 +8,9 @@ interface ChunkInfo {
   fileIndex: number;
 }
 
-export default function useUpload(mediaType: string) {
+type MediaType = "video" | "image";
+
+export default function useUpload(mediaType: MediaType) {
   const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
   const [uploadedId, setUploadedId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);

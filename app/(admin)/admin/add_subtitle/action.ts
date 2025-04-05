@@ -1,31 +1,50 @@
 "use server";
 import { convertAssToVtt } from "@/app/lib/server/assToVtt";
 import { convertSmiToVtt } from "@/app/lib/server/smiToVtt";
+import { Season, Series } from "@/types/interfaces";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
 
-export interface NonSubtitleEpisode {
-  id: string;
-  number: number;
-  title: string;
-  video_id: string;
-  series: {
-    title: string;
-  };
-  season: {
+export interface NonSubtitleVideoConent {
+  id: number;
+  watch_id: string;
+  subtitle_id: number | null;
+  type: "EPISODE" | "MOVIE";
+  opening_start: number | null;
+  opening_end: number | null;
+  ending_start: number | null;
+  ending_end: number | null;
+  magnet_id: number;
+  created_at: string;
+  updated_at: string;
+  episode?: {
+    id: number;
+    season_id: number;
+    series_id: number;
+    video_content_id: number;
+    episode_number: number;
     name: string;
-  };
+    overview: string;
+    still_path: string;
+    runtime: number;
+    is_korean_translated: boolean;
+    created_at: string;
+    updated_at: string;
+  } | null;
+  movie?: unknown | null;
+  series: Series;
+  season: Season;
 }
-export async function getNonSubtitleEpisode() {
+export async function getNonSubtitleVideoConent() {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/episode/no-subtitles`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/video/video-content/no-subtitles`,
     {
       method: "GET",
     },
   );
 
   if (response.ok) {
-    const json = (await response.json()).episodes as NonSubtitleEpisode[];
+    const json = (await response.json()).episodes as NonSubtitleVideoConent[];
     return json;
   }
   // revalidateTag("subtitle");
@@ -52,13 +71,13 @@ const checkSubtitleFile = (filename: string) => {
 const addSubtitleSchema = z.object({
   isOverlap: z.string().nullable(),
   subtitle: z.any().refine((file: File) => checkSubtitleFile(file.name)),
-  episodeId: z.string(),
+  videoContentId: z.string(),
 });
 export async function addSubtitle(_: unknown, formData: FormData) {
   const data = {
     isOverlap: formData.get("is_overlap"),
     subtitle: formData.get("subtitle"),
-    episodeId: formData.get("episode_id"),
+    videoContentId: formData.get("video_content_id"),
   };
   const result = addSubtitleSchema.safeParse(data);
   if (!result.success) {
@@ -66,7 +85,7 @@ export async function addSubtitle(_: unknown, formData: FormData) {
   } else {
     const subtitleForm = new FormData();
     subtitleForm.append("subtitle", result.data.subtitle);
-    subtitleForm.append("episode_id", result.data.episodeId);
+    subtitleForm.append("video_content_id", result.data.videoContentId);
     if (result.data.isOverlap) {
       subtitleForm.append("is_overlap", result.data.isOverlap);
     }

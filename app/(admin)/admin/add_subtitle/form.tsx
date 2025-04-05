@@ -9,16 +9,16 @@ import {
 } from "react";
 import {
   addSubtitle,
-  NonSubtitleEpisode,
+  NonSubtitleVideoConent,
   subtitleTextToVttText,
 } from "./action";
 import Button from "@/components/button";
 import Form from "@/components/ui/admin-form";
 
 interface SubtitleFormProps {
-  episode: NonSubtitleEpisode;
+  videoContent: NonSubtitleVideoConent;
 }
-export default function SubtitleForm({ episode }: SubtitleFormProps) {
+export default function SubtitleForm({ videoContent }: SubtitleFormProps) {
   const [state, action, pending] = useActionState(addSubtitle, null);
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -55,22 +55,23 @@ export default function SubtitleForm({ episode }: SubtitleFormProps) {
   return (
     <Form action={action} subTitle="Add Subtitle">
       <div>
-        <h4 className="text-base font-medium">{episode.series.title}</h4>
+        <h4 className="text-base font-medium">{videoContent.series?.title}</h4>
         <span className="text-neutral-400">
-          {episode.season.name} 제{episode.number}화 {episode.title}
+          {videoContent.season.name} 제{videoContent.episode?.episode_number}화
+          {videoContent.episode?.name}
         </span>
       </div>
 
       <input type="text" name="file" id="file" className="hidden" />
       <label
-        htmlFor={episode.id}
+        htmlFor={videoContent.id + ""}
         className={`mt-1 flex aspect-video items-center justify-center border border-dashed`}
       >
         {vttUrl ? (
           <div className="flex flex-col">
             <video ref={videoRef} controls autoPlay crossOrigin="anonymous">
               <source
-                src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/video/${episode.video_id}`}
+                src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/video/${videoContent.watch_id}`}
                 type="video/mp4"
               />
               <track
@@ -90,10 +91,10 @@ export default function SubtitleForm({ episode }: SubtitleFormProps) {
             <Button text="add subtitle" pending={pending} />
             <input
               type="text"
-              id="episode_id"
-              name="episode_id"
+              id="video_content_id"
+              name="video_content_id"
               className="hidden"
-              defaultValue={episode.id}
+              defaultValue={videoContent.id}
             />
           </div>
         ) : null}
@@ -101,7 +102,7 @@ export default function SubtitleForm({ episode }: SubtitleFormProps) {
         <input
           type="file"
           name="subtitle"
-          id={episode.id}
+          id={videoContent.id + ""}
           className="hidden"
           onChange={onChange}
         />

@@ -25,6 +25,7 @@ export async function insertMovie(_: unknown, formData: FormData) {
   };
 
   const result = moiveSchema.safeParse(data);
+
   if (!result.success) {
     return {
       errors: result.error.flatten(),
@@ -60,21 +61,18 @@ const episodeSchema = z.object({
   number: z.number(),
   videoId: z.string(),
   seasonId: z.string(),
-  seriesId: z.string(),
 });
 
 export async function insertEpisode(_: unknown, formData: FormData) {
   const data = {
     title: formData.get("title"),
     description: formData.get("description"),
-    thumbnail: formData.get("thumbnail"),
+    thumbnail: `${process.env.NEXT_PUBLIC_BACKEND_URL}/image/${formData.get("thumbnail")}`,
     running_time: formData.get("running_time"),
-    number: formData.get("number"),
-    videoId: formData.get("video_id"),
+    number: Number(formData.get("number")),
+    videoId: formData.get("video"),
     seasonId: formData.get("season_id"),
-    seriesId: formData.get("series_id"),
   };
-
   const result = episodeSchema.safeParse(data);
 
   if (!result.success) {

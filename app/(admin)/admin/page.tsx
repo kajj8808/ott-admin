@@ -7,6 +7,7 @@ export default function Page() {
     { title: "add nyaa", href: "admin/add_nyaa" },
     { title: "add magnet", href: "admin/add_magnet" },
     { title: "add subtitle", href: "admin/add_subtitle" },
+    { title: "upload image", href: "admin/upload_image" },
   ];
 
   return (

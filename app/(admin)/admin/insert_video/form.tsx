@@ -149,7 +149,7 @@ export default function VideoForm({ seasons }: VideoFormProps) {
                 type="text"
                 className="hidden"
                 defaultValue={thumbnailUploadState.uploadedId!}
-                name="thumbnail"
+                name="still_path"
               />
             </div>
           )}
@@ -174,13 +174,17 @@ export default function VideoForm({ seasons }: VideoFormProps) {
         </Form>
       ) : (
         <Form action={episodeAction} subTitle="Episode">
-          <select className="rounded-sm p-3 text-center text-lg font-semibold text-neutral-900">
+          <select
+            name="season_id"
+            className="rounded-sm p-3 text-center text-lg font-semibold text-neutral-900"
+          >
             {seasons.map((season) => (
               <option key={season.id} value={season.id} className="w-5">
                 {season.series.title} {season.name}
               </option>
             ))}
           </select>
+
           <Input id="title" name="title" placeholder="title" />
           <Input
             id="description"
@@ -207,12 +211,12 @@ export default function VideoForm({ seasons }: VideoFormProps) {
             </div>
           )}
           <label
-            htmlFor="video_file"
+            htmlFor="video_id"
             className={`border p-4 text-center ${videoUploadState.uploadedUrl && "hidden"}`}
           >
             <input
               type="file"
-              id="video_file"
+              id="video_id"
               className="hidden"
               onChange={onVideoChange}
             />

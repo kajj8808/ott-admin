@@ -26,16 +26,6 @@ export default function NyaaForm({ seasons }: NyaaFormProps) {
         ))}
       </select>
       <Input id="nyaa_query" name="nyaa_query" placeholder="nyaa query" />
-      <ul>
-        <li>
-          <input type="checkbox" name="is_db" id="is_db" />
-          <span> is db</span>
-        </li>
-        <li>
-          <input type="checkbox" name="is_4k" id="is_4k" />
-          <span> is 4k</span>
-        </li>
-      </ul>
 
       <Button text="Send" pending={pending} />
       {state?.errors ? (

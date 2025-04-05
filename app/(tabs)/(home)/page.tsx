@@ -10,7 +10,7 @@ export default async function Home() {
       <div className="grid max-w-screen-xl select-none auto-cols-fr auto-rows-min grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
         {episodes?.map((episode) => (
           <Link
-            href={`/video/${episode.video_id}`}
+            href={`/video/${episode.video_content_id}`}
             key={episode.id}
             className="group max-w-sm"
           >
@@ -18,11 +18,12 @@ export default async function Home() {
               {episode.series.title}
             </h5>
             <h3 className="truncate text-lg font-semibold">
-              {episode.season.name} {episode.number}화 [ {episode.title} ]
+              {episode.season.name} {episode.episode_number}화 [ {episode.name}{" "}
+              ]
             </h3>
             <div className="overflow-hidden rounded-md">
               <Image
-                src={episode.thumbnail}
+                src={episode.still_path}
                 width={320}
                 height={240}
                 alt={`image-${episode.id}`}
