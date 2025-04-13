@@ -57,7 +57,7 @@ export default function SubtitleForm({ videoContent }: SubtitleFormProps) {
       <div>
         <h4 className="text-base font-medium">{videoContent.series?.title}</h4>
         <span className="text-neutral-400">
-          {videoContent.season.name} 제{videoContent.episode?.episode_number}화
+          {videoContent.season?.name} 제{videoContent.episode?.episode_number}화
           {videoContent.episode?.name}
         </span>
       </div>

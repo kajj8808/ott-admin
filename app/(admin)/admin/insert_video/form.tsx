@@ -154,12 +154,12 @@ export default function VideoForm({ seasons }: VideoFormProps) {
             </div>
           )}
           <label
-            htmlFor="thumnail_file"
+            htmlFor="still_path"
             className={`border p-4 text-center ${thumbnailUploadState.uploadedUrl && "hidden"}`}
           >
             <input
               type="file"
-              id="thumnail_file"
+              id="still_path"
               className="hidden"
               onChange={onThumbnailChange}
             />

@@ -18,7 +18,7 @@ export async function insertMovie(_: unknown, formData: FormData) {
     title: formData.get("title"),
     description: formData.get("description"),
     poster: formData.get("poster"),
-    thumbnail: formData.get("thumbnail"),
+    thumbnail: formData.get("still_path"),
     runningTime: formData.get("running_time"),
     videoId: formData.get("video"),
     seriesId: formData.get("series_id"),

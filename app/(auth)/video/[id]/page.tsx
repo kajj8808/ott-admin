@@ -11,6 +11,7 @@ export default async function Page({
   if (!result) {
     return;
   }
+  console.log(result);
   return (
     <div className="flex items-center justify-center">
       <video controls className="aspect-video" crossOrigin="anonymous">
