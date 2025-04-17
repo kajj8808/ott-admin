@@ -123,7 +123,7 @@ export default function useUpload(mediaType: MediaType) {
 
               while (true) {
                 const response = await fetch(
-                  `${process.env.NEXT_PUBLIC_BACKEND_URL}/file-upload/upload`,
+                  `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/file-upload/upload`,
                   {
                     method: "POST",
                     body: formData,
@@ -166,7 +166,7 @@ export default function useUpload(mediaType: MediaType) {
   useEffect(() => {
     if (uploadedId && mediaType) {
       setUploadedUrl(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/${mediaType}/${uploadedId}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/media/${mediaType}/${uploadedId}`,
       );
     }
   }, [uploadedId, mediaType]);

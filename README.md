@@ -12,7 +12,7 @@
 
 ## 파일 구조
 
-- `app/(admin)/admin/insert_video/form.tsx`: 비디오 업로드 폼
+- `app/(admin)/admin/insert_videos/form.tsx`: 비디오 업로드 폼
 - `app/(admin)/admin/add_subtitle/page.tsx`: 자막 추가 페이지
 - `app/(admin)/admin/insert_series/page.tsx`: 시리즈 추가 페이지
 - `app/(admin)/admin/add_magnet/page.tsx`: 마그넷 링크 추가 페이지

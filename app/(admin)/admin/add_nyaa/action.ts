@@ -16,7 +16,7 @@ export async function addNyaa(_: unknown, formData: FormData) {
   if (!result.success) {
     return { errors: result.error.flatten() };
   } else {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/season/add_nyaa`, {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/season/add_nyaa`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +38,7 @@ export interface Season {
 
 export async function getSasons() {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/season/list/not-nyaa`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/season/list/not-nyaa`,
   );
   if (response.ok) {
     const json = (await response.json()).seasons as Season[];

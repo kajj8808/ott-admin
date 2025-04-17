@@ -37,7 +37,7 @@ export interface NonSubtitleVideoConent {
 }
 export async function getNonSubtitleVideoConent() {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/video/video-content/no-subtitles`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/videos/no-subtitle`,
     {
       method: "GET",
     },
@@ -91,7 +91,7 @@ export async function addSubtitle(_: unknown, formData: FormData) {
     }
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/subtitle/upload`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/subtitle/upload`,
       {
         method: "POST",
         body: subtitleForm,

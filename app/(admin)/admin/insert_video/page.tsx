@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 
 async function getSeasons() {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/season/list`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/season/list`,
     {
       method: "GET",
     },

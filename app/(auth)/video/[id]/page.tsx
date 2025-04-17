@@ -16,7 +16,7 @@ export default async function Page({
     <div className="flex items-center justify-center">
       <video controls className="aspect-video" crossOrigin="anonymous">
         <source
-          src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/video/${result.watch_id}`}
+          src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/media/video/${result.watch_id}`}
           type="video/mp4"
         />
         <track

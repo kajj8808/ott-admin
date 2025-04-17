@@ -20,13 +20,16 @@ export async function addMagnet(_: unknown, formData: FormData) {
   if (!result.success) {
     return { errors: result.error.flatten() };
   } else {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/season/add_magnet`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/season/add_magnet`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(result.data),
       },
-      body: JSON.stringify(result.data),
-    });
+    );
     redirect("/admin");
   }
 }

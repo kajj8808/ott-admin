@@ -23,7 +23,7 @@ interface VideoContentResponse {
 
 export const getVideoContent = async (videoContentId: string) => {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/video/video-content/${videoContentId}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/videos/${videoContentId}`,
   );
   const json = (await res.json()) as VideoContentResponse;
   console.log(json);

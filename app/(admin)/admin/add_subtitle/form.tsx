@@ -71,7 +71,7 @@ export default function SubtitleForm({ videoContent }: SubtitleFormProps) {
           <div className="flex flex-col">
             <video ref={videoRef} controls autoPlay crossOrigin="anonymous">
               <source
-                src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/video/${videoContent.watch_id}`}
+                src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/media/video/${videoContent.watch_id}`}
                 type="video/mp4"
               />
               <track

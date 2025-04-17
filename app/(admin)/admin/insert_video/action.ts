@@ -31,7 +31,7 @@ export async function insertMovie(_: unknown, formData: FormData) {
       errors: result.error.flatten(),
     };
   } else {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/movie/insert`, {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/movie/insert`, {
       method: "POST",
       body: JSON.stringify(result.data),
       headers: {
@@ -80,7 +80,7 @@ export async function insertEpisode(_: unknown, formData: FormData) {
       errors: result.error.flatten(),
     };
   } else {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/episode/insert`, {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/episode/insert`, {
       method: "POST",
       body: JSON.stringify(result.data),
       headers: {
