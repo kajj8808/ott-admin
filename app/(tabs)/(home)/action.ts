@@ -7,9 +7,9 @@ interface NewEpisodesResult {
   result: Episode[];
 }
 export const getNewEpisode = async () => {
-  console.log(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/episode/new`);
+  console.log(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/episodes/new`);
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/episode/new`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/episodes/new`,
   );
   const json = (await res.json()) as NewEpisodesResult;
   if (json.ok) {
