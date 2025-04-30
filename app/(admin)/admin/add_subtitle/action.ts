@@ -1,6 +1,7 @@
 "use server";
 import { convertAssToVtt } from "@/app/lib/server/assToVtt";
 import { convertSmiToVtt } from "@/app/lib/server/smiToVtt";
+import { convertSrtToVtt } from "@/app/lib/server/srtToVtt";
 import { Season, Series } from "@/types/interfaces";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
@@ -59,13 +60,22 @@ export const subtitleTextToVttText = async (
     vttContnet = convertAssToVtt(subtitleText);
   } else if (subtitleName.includes(".smi")) {
     vttContnet = convertSmiToVtt(subtitleText);
+  } else if (subtitleName.includes(".srt")) {
+    vttContnet = convertSrtToVtt(subtitleText);
+  } else if (subtitleName.includes(".vtt")) {
+    vttContnet = subtitleText;
   }
 
   return vttContnet;
 };
 
 const checkSubtitleFile = (filename: string) => {
-  return filename.includes(".ass") || filename.includes(".smi");
+  return (
+    filename.includes(".ass") ||
+    filename.includes(".smi") ||
+    filename.includes(".srt") ||
+    filename.includes(".vtt")
+  );
 };
 
 const addSubtitleSchema = z.object({

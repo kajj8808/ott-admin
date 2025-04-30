@@ -29,7 +29,12 @@ export default function SubtitleForm({ videoContent }: SubtitleFormProps) {
 
     const subtitleFile = e.target.files[0];
     const filename = subtitleFile.name;
-    if (filename.includes(".smi") || filename.includes(".ass")) {
+    if (
+      filename.includes(".smi") ||
+      filename.includes(".ass") ||
+      filename.includes(".vtt") ||
+      filename.includes(".srt")
+    ) {
       const reader = new FileReader();
       reader.onload = async (e) => {
         const subtitleContent = e.target?.result as string;
@@ -42,7 +47,7 @@ export default function SubtitleForm({ videoContent }: SubtitleFormProps) {
         setVttUrl(url);
       };
       // euc - kr 이 아닌 경우 깨지는 파일이 많은 관계로..
-      reader.readAsText(subtitleFile, "euc-kr");
+      reader.readAsText(subtitleFile, "utf-8");
     }
   };
 
