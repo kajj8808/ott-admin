@@ -28,16 +28,6 @@ export default function MagnetForm({ seasons }: MagnetFormProps) {
         ))}
       </select>
       <Input id="magnet_url" name="magnet_url" placeholder="Magnet Url" />
-      <ul>
-        <li>
-          <input type="checkbox" name="is_db" id="is_db" />
-          <span> is db</span>
-        </li>
-        <li>
-          <input type="checkbox" name="is_4k" id="is_4k" />
-          <span> is 4k</span>
-        </li>
-      </ul>
 
       <Button text="Send" pending={pending} />
       {state?.errors ? (
