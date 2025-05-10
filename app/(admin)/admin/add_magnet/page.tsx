@@ -1,21 +1,24 @@
-import { getSasons } from "../add_nyaa/action";
-import MagnetForm from "./form";
+import Title from "@/components/title";
+import Link from "next/link";
 
-export const dynamic = "force-dynamic";
-
-export default async function AddMagnet() {
-  const seasons = await getSasons();
-
+export default function Page() {
   return (
-    <div className="flex h-dvh w-full flex-col items-center justify-center bg-neutral-900">
-      <h3 className="text-3xl font-bold uppercase">Add Magnet</h3>
-      {seasons ? (
-        <MagnetForm seasons={seasons} />
-      ) : (
-        <span className="text-sm text-red-500">
-          Season 정보를 불러 올 수 없습니다.
-        </span>
-      )}
+    <div>
+      <Title title="Add Magnet" />
+      <div className="flex justify-between gap-1 px-5 pt-3 text-lg font-semibold">
+        <Link
+          href={"add_magnet/episode"}
+          className="transition-all hover:scale-125"
+        >
+          Episode
+        </Link>
+        <Link
+          href={"add_magnet/movie"}
+          className="transition-all hover:scale-125"
+        >
+          Movie
+        </Link>
+      </div>
     </div>
   );
 }
