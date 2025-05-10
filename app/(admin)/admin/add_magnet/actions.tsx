@@ -5,16 +5,16 @@ import { z } from "zod";
 const formSchema = z.object({
   magnetUrl: z.string(),
   seasonId: z.string(),
-  is_db: z.boolean(),
-  is_4k: z.boolean(),
+  isEpisode: z.boolean(),
+  isMovie: z.boolean(),
 });
 
 export async function addMagnet(_: unknown, formData: FormData) {
   const data = {
     magnetUrl: formData.get("magnet_url"),
     seasonId: formData.get("season_id"),
-    is_db: formData.get("is_db") === "on",
-    is_4k: formData.get("is_4k") === "on",
+    isEpisode: formData.get("is_episode") === "on",
+    isMovie: formData.get("is_movie") === "on",
   };
   const result = formSchema.safeParse(data);
   if (!result.success) {

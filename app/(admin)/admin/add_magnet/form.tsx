@@ -28,7 +28,16 @@ export default function MagnetForm({ seasons }: MagnetFormProps) {
         ))}
       </select>
       <Input id="magnet_url" name="magnet_url" placeholder="Magnet Url" />
-
+      <ul>
+        <li>
+          <input type="checkbox" name="is_episode" id="is_episode" />
+          <span> episode </span>
+        </li>
+        <li>
+          <input type="checkbox" name="is_movie" id="is_movie" />
+          <span> movie </span>
+        </li>
+      </ul>
       <Button text="Send" pending={pending} />
       {state?.errors ? (
         <span className="text-sm text-red-500">
