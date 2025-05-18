@@ -54,10 +54,7 @@ season_id
 series_id */
 
 const episodeSchema = z.object({
-  title: z.string(),
-  description: z.string(),
   thumbnail: z.string(),
-  running_time: z.string(),
   number: z.number(),
   videoId: z.string(),
   seasonId: z.string(),
@@ -65,10 +62,7 @@ const episodeSchema = z.object({
 
 export async function insertEpisode(_: unknown, formData: FormData) {
   const data = {
-    title: formData.get("title"),
-    description: formData.get("description"),
     thumbnail: `${process.env.NEXT_PUBLIC_BACKEND_URL}/image/${formData.get("thumbnail")}`,
-    running_time: formData.get("running_time"),
     number: Number(formData.get("number")),
     videoId: formData.get("video"),
     seasonId: formData.get("season_id"),
@@ -80,13 +74,13 @@ export async function insertEpisode(_: unknown, formData: FormData) {
       errors: result.error.flatten(),
     };
   } else {
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/episode/insert`, {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/episodes/insert`, {
       method: "POST",
       body: JSON.stringify(result.data),
       headers: {
         "Content-Type": "application/json",
       },
     });
-    redirect("/admin");
+    redirect("/admin/insert_video");
   }
 }

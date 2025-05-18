@@ -185,17 +185,6 @@ export default function VideoForm({ seasons }: VideoFormProps) {
             ))}
           </select>
 
-          <Input id="title" name="title" placeholder="title" />
-          <Input
-            id="description"
-            name="description"
-            placeholder="description"
-          />
-          <Input
-            id="running_time"
-            name="running_time"
-            placeholder="running_time"
-          />
           <Input id="number" name="number" placeholder="number" />
           {videoUploadState.uploadedUrl && (
             <div>
