@@ -60,11 +60,24 @@ export default function SubtitleForm({ videoContent }: SubtitleFormProps) {
   return (
     <Form action={action} subTitle="Add Subtitle">
       <div>
-        <h4 className="text-base font-medium">{videoContent.series?.title}</h4>
-        <span className="text-neutral-400">
-          {videoContent.season?.name} 제{videoContent.episode?.episode_number}화
-          {videoContent.episode?.name}
-        </span>
+        {videoContent.movie ? (
+          <div>
+            <h4 className="text-base font-medium">
+              {videoContent.movie.title}
+            </h4>
+          </div>
+        ) : (
+          <div>
+            <h4 className="text-base font-medium">
+              {videoContent.series?.title}
+            </h4>
+            <span className="text-neutral-400">
+              {videoContent.season?.name} 제
+              {videoContent.episode?.episode_number}화
+              {videoContent.episode?.name}
+            </span>
+          </div>
+        )}
       </div>
 
       <input type="text" name="file" id="file" className="hidden" />

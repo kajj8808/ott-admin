@@ -1,7 +1,6 @@
 /** srt content text를 vtt content text로 변환하는 함수 */
 export function convertSrtToVtt(subtitleText: string) {
   let vttText = "WEBVTT\n";
-  console.log(subtitleText);
   vttText += subtitleText
     .replace(/\r/g, "")
     .replace(

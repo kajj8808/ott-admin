@@ -32,7 +32,11 @@ export interface NonSubtitleVideoConent {
     created_at: string;
     updated_at: string;
   } | null;
-  movie?: unknown | null;
+  movie?: {
+    title: string;
+    id: number;
+    video_content_id: number;
+  } | null;
   series: Series;
   season: Season;
 }
@@ -45,7 +49,8 @@ export async function getNonSubtitleVideoConent() {
   );
 
   if (response.ok) {
-    const json = (await response.json()).episodes as NonSubtitleVideoConent[];
+    const json = (await response.json())
+      .videoContents as NonSubtitleVideoConent[];
     return json;
   }
   // revalidateTag("subtitle");
